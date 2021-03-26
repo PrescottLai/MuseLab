@@ -11,6 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia
 from PyQt5.Qt import *
 from melody_generate import *
 import sys
+import webbrowser
 
 CURRENT_DIR = os.path.dirname(os.path.realpath
                               ("./music/BackGround_Music/BackgroundMusic1.wav"))
@@ -356,8 +357,8 @@ class Ui_MainWindow(QMainWindow):
         self.actionMinimize_2.setObjectName("actionMinimize_2")
         self.actionMaximize_2 = QtWidgets.QAction(MainWindow)
         self.actionMaximize_2.setObjectName("actionMaximize_2")
-        self.actionSend_Email = QtWidgets.QAction(MainWindow)
-        self.actionSend_Email.setObjectName("actionSend_Email")
+        self.actionContact_Us = QtWidgets.QAction(MainWindow)
+        self.actionContact_Us.setObjectName("actionContact_Us")
         self.actionHelp = QtWidgets.QAction(MainWindow)
         self.actionHelp.setObjectName("actionHelp")
         self.menuRecent.addAction(self.action_2)
@@ -371,7 +372,7 @@ class Ui_MainWindow(QMainWindow):
         self.menuFile.addAction(self.menuImport.menuAction())
         self.menuSetting.addAction(self.actionProperties)
         self.menuSetting.addAction(self.actionWindow_SIze)
-        self.menuHelp.addAction(self.actionSend_Email)
+        self.menuHelp.addAction(self.actionContact_Us)
         self.menuHelp.addAction(self.actionHelp)
         self.menuProperties.addAction(self.actionMinimize_2)
         self.menuProperties.addAction(self.actionMaximize_2)
@@ -385,6 +386,7 @@ class Ui_MainWindow(QMainWindow):
         # self.actionClose.triggered.connect(MainWindow.close)
         self.actionClose.triggered.connect(self.closeState)
         self.actionHelp.triggered.connect(self.HelpScreen)
+        self.actionContact_Us.triggered.connect(self.Website)
         # self.actionNewProject.triggered.connect(MainWindow.buttonClicked)
         # self.actionMinimize.triggered.connect(MainWindow.showMinimized)
         # self.actionMaximize.triggered.connect(MainWindow.showMaximized)
@@ -402,6 +404,9 @@ class Ui_MainWindow(QMainWindow):
         self.sub = HelpScreen()
         self.sub.show()
         # self.close()
+
+    def Website(self):
+        webbrowser.open('https://prescottlai.wixsite.com/website-1/contact')
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -427,7 +432,7 @@ class Ui_MainWindow(QMainWindow):
         self.actionMaximize.setText(_translate("MainWindow", "Maximize"))
         self.actionMinimize_2.setText(_translate("MainWindow", "Minimize"))
         self.actionMaximize_2.setText(_translate("MainWindow", "Maximize"))
-        self.actionSend_Email.setText(_translate("MainWindow", "Send Email"))
+        self.actionContact_Us.setText(_translate("MainWindow", "Contact Us"))
         self.actionHelp.setText(_translate("MainWindow", "Help"))
 
     def buttonClicked(self):
