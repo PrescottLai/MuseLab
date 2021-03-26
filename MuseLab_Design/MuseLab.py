@@ -24,13 +24,19 @@ class SubWindow(QMainWindow):
         self.setWindowTitle("Transition")
         self.setFixedWidth(1159)
         self.setFixedHeight(750)
-        self.setGeometry(380, 140, 1159, 750)
+        self.center()
         self.setStyleSheet("background-image: url(./image/Chords_picture.jpg);")
         app_icon = QIcon("./image/muselab_icon.jpg")
         self.setWindowIcon(app_icon)
         self.UiComponents()
         self.show()
         self.string = ""  # passed string from MainWindow
+
+    def center(self):
+        screen = QDesktopWidget().screenGeometry()
+        size = self.geometry()
+        self.move((screen.width() - size.width()) / 2,
+                  (screen.height() - size.height()) / 2)
 
     def UiComponents(self):
         button1 = QPushButton("Re-Orchestrate", self)
@@ -78,36 +84,39 @@ class SubWindow(QMainWindow):
 class Retry_tip(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(Retry_tip, self).__init__(*args, **kwargs)
-        self.setWindowTitle("Re-orchestration Completed")
+        self.setWindowTitle("Message")
         self.setFixedWidth(530)
         self.setFixedHeight(250)
-        self.setGeometry(690, 390, 170, 35)
+        self.center()
         self.setStyleSheet("background-image: url(./image/Dialog_Background_1.jpg);")
         app_icon = QIcon("./image/muselab_icon.jpg")
         self.setWindowIcon(app_icon)
         self.UiComponents()
         self.show()
 
+    def center(self):
+        screen = QDesktopWidget().screenGeometry()
+        size = self.geometry()
+        self.move((screen.width() - size.width()) / 2,
+                  (screen.height() - size.height()) / 2)
+
     def UiComponents(self):
         label1 = QLabel("Re-orchestration completed!", self)
         label2 = QLabel("Test it in the music/Output file!", self)
-        label3 = QLabel("Re-orchestrate another file?", self)
-        label1.setGeometry(99, 30, 475, 27)
-        label2.setGeometry(99, 90, 475, 27)
-        label3.setGeometry(99, 150, 475, 27)
+        label1.setGeometry(150, 50, 475, 27)
+        label2.setGeometry(145, 110, 475, 27)
+        # label1.setAlignment(QtCore.Qt.AlignHCenter)
         font = QtGui.QFont()
-        font.setPointSize(13)
+        font.setPointSize(16)
         font.setBold(True)
         font.setWeight(75)
         label1.setFont(font)
         label2.setFont(font)
-        label3.setFont(font)
         label1.setStyleSheet("color: rgb(255, 255, 255);")
         label2.setStyleSheet("color: rgb(255, 255, 255);")
-        label3.setStyleSheet("color: rgb(255, 255, 255);")
 
-        button1 = QPushButton("Yes", self)
-        button1.setGeometry(100, 200, 170, 35)
+        button1 = QPushButton("Try another", self)
+        button1.setGeometry(90, 200, 170, 35)
         button1.setFixedWidth(150)
         button1.setFixedHeight(35)
         font = QtGui.QFont()
@@ -117,8 +126,8 @@ class Retry_tip(QMainWindow):
         button1.setStyleSheet("color: rgb(255, 255, 255);")
         button1.clicked.connect(self.open_dialog_box)
 
-        button2 = QPushButton("No", self)
-        button2.setGeometry(300, 200, 170, 35)
+        button2 = QPushButton("Ok", self)
+        button2.setGeometry(295, 200, 170, 35)
         button2.setFixedWidth(150)
         button2.setFixedHeight(35)
         font = QtGui.QFont()
@@ -129,23 +138,26 @@ class Retry_tip(QMainWindow):
         button2.clicked.connect(self.CloseState)
 
     def open_dialog_box(self):
-        self.close()
+        self.hide()
         Filename = QFileDialog.getOpenFileName()
         path = Filename[0]
         test_path = path.lower()
-        if test_path.endswith(".mid") is False and path != "":  # invalid file input
+        while test_path.endswith(".mid") is False and path != "":  # invalid file input
             errormsg = QMessageBox()
             errormsg.setStyleSheet("QLabel{min-width: 300px;}")
             errormsg.setWindowTitle("Invalid File!")
             errormsg.setText("Error")
             errormsg.setInformativeText('Requires MIDI file as input!')
             errormsg.exec_()
-        elif test_path.endswith(".mid"):  # correct input
+            Filename = QFileDialog.getOpenFileName()
+            path = Filename[0]
+            test_path = path.lower()
+        if test_path.endswith(".mid"):  # correct input
             fp = path
             print(fp)
             self.sub = SubWindow()
             self.sub.string = path  # passes the string to new window
-
+            self.close()
     def CloseState(self):
         self.close()
 
@@ -256,10 +268,6 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1125, 748)
         MainWindow.setMaximumSize(QtCore.QSize(1125, 748))
-        # palette = QPalette()
-        # image = QPixmap("./music.jpg")
-        # palette.setBrush(QPalette.Background,QBrush(image))
-        # MainWindow.setPalette(palette)
         MainWindow.setStyleSheet(
             "background-image: url(./image/music.jpg);")
         # originally it is :/music.jpg, but it is wrong with“ ：”， should be "."
@@ -437,9 +445,8 @@ class Ui_MainWindow(QMainWindow):
             print(fp)
             self.sub = SubWindow()
             self.sub.string = path  # passes the string to new window
-            self.sub.show()
-            self.close()
-            mainWindows.close()
+            # self.sub.show()
+            mainWindows.hide()
 
 
 if __name__ == '__main__':
