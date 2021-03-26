@@ -167,22 +167,28 @@ class HelpScreen(QMainWindow):
         super(HelpScreen, self).__init__(*args, **kwargs)
 
         self.setWindowTitle("How to use the program")
-        self.setFixedWidth(530)
+        self.setFixedWidth(520)
         self.setFixedHeight(250)
-        self.setGeometry(300, 150, 170, 35)
+        self.center()
         self.setStyleSheet("background-image: url(./image/Dialog_Background_1.jpg);")
         app_icon = QIcon("./image/muselab_icon.jpg")
         self.setWindowIcon(app_icon)
         self.UiComponents()
         self.show()
 
+    def center(self):
+        screen = QDesktopWidget().screenGeometry()
+        size = self.geometry()
+        self.move((screen.width() - size.width()) / 2,
+                  (screen.height() - size.height()) / 2)
+
     def UiComponents(self):
-        label = QLabel("1. Provide a MIDI file to MuseLab", self)
-        label2 = QLabel("2. Select the music style you want", self)
-        label3 = QLabel("3. Enjoy the re-orchestrated music!", self)
-        label.setGeometry(30, 30, 475, 27)
-        label2.setGeometry(30, 90, 475, 27)
-        label3.setGeometry(30, 150, 475, 27)
+        label = QLabel("1. Provide a MIDI File to MuseLab", self)
+        label2 = QLabel("2. Select the Music Style You Want", self)
+        label3 = QLabel("3. Enjoy Your Music Journey!", self)
+        label.setGeometry(155, 30, 475, 27)
+        label2.setGeometry(145, 90, 475, 27)
+        label3.setGeometry(160, 150, 475, 27)
         font = QtGui.QFont()
         font.setPointSize(13)
         font.setBold(True)
@@ -195,7 +201,7 @@ class HelpScreen(QMainWindow):
         label3.setStyleSheet("color: rgb(255, 255, 255);")
 
         button1 = QPushButton("OK", self)
-        button1.setGeometry(215, 200, 170, 35)
+        button1.setGeometry(207, 200, 170, 35)
         button1.setFixedWidth(100)
         button1.setFixedHeight(35)
         font = QtGui.QFont()
