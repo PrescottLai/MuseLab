@@ -5,7 +5,7 @@
   <identification>
     <creator type="composer">Music21</creator>
     <encoding>
-      <encoding-date>2021-03-25</encoding-date>
+      <encoding-date>2021-03-27</encoding-date>
       <software>music21 v.6.1.0</software>
     </encoding>
   </identification>
@@ -16,36 +16,45 @@
     </scaling>
   </defaults>
   <part-list>
-    <score-part id="P061c5b849997622a0e2223e75aa70527">
+    <score-part id="P11afc8b3f211e22e928619f97fd29200">
       <part-name>Piano</part-name>
       <part-abbreviation>Pno</part-abbreviation>
-      <score-instrument id="I3471fa0e77d0f8ef01814a4744792942">
+      <score-instrument id="I3c3082a1b923b94e6431ce4fa9ea5195">
         <instrument-name>Piano</instrument-name>
         <instrument-abbreviation>Pno</instrument-abbreviation>
       </score-instrument>
-      <midi-instrument id="I3471fa0e77d0f8ef01814a4744792942">
+      <midi-instrument id="I3c3082a1b923b94e6431ce4fa9ea5195">
         <midi-channel>1</midi-channel>
         <midi-program>1</midi-program>
       </midi-instrument>
     </score-part>
-    <score-part id="Pca50fa900e92623d9455262255e9b08f">
-      <part-name />
+    <score-part id="P67af818a1207783990cd99aeca081286">
+      <part-name>Piano</part-name>
+      <part-abbreviation>Pno</part-abbreviation>
+      <score-instrument id="I2162456cc221ff54e97285affc4c2014">
+        <instrument-name>Piano</instrument-name>
+        <instrument-abbreviation>Pno</instrument-abbreviation>
+      </score-instrument>
+      <midi-instrument id="I2162456cc221ff54e97285affc4c2014">
+        <midi-channel>2</midi-channel>
+        <midi-program>1</midi-program>
+      </midi-instrument>
     </score-part>
-    <score-part id="P029a1ce3af7fade18db01c60dc9333ba">
+    <score-part id="Pa507afe2f797246c412fe9a54eaac352">
       <part-name>Violoncello</part-name>
       <part-abbreviation>Vc</part-abbreviation>
-      <score-instrument id="I06b4be80bb84c639e1ff48a84ede52eb">
+      <score-instrument id="Id3d033b175c750f68b74d87953008c00">
         <instrument-name>Violoncello</instrument-name>
         <instrument-abbreviation>Vc</instrument-abbreviation>
       </score-instrument>
-      <midi-instrument id="I06b4be80bb84c639e1ff48a84ede52eb">
+      <midi-instrument id="Id3d033b175c750f68b74d87953008c00">
         <midi-channel>3</midi-channel>
         <midi-program>43</midi-program>
       </midi-instrument>
     </score-part>
   </part-list>
   <!--=========================== Part 1 ===========================-->
-  <part id="P061c5b849997622a0e2223e75aa70527">
+  <part id="P11afc8b3f211e22e928619f97fd29200">
     <!--========================= Measure 1 ==========================-->
     <measure number="1">
       <attributes>
@@ -228,7 +237,7 @@
     </measure>
   </part>
   <!--=========================== Part 2 ===========================-->
-  <part id="Pca50fa900e92623d9455262255e9b08f">
+  <part id="P67af818a1207783990cd99aeca081286">
     <!--========================= Measure 1 ==========================-->
     <measure number="1">
       <attributes>
@@ -248,15 +257,16 @@
           <octave>3</octave>
         </pitch>
         <duration>37800</duration>
-        <voice>0</voice>
         <type>half</type>
         <dot />
         <dot />
         <dot />
       </note>
-      <backup>
-        <duration>37800</duration>
-      </backup>
+      <note>
+        <rest />
+        <duration>2520</duration>
+        <type>16th</type>
+      </note>
     </measure>
     <!--========================= Measure 2 ==========================-->
     <measure number="2">
@@ -266,15 +276,16 @@
           <octave>3</octave>
         </pitch>
         <duration>37800</duration>
-        <voice>0</voice>
         <type>half</type>
         <dot />
         <dot />
         <dot />
       </note>
-      <backup>
-        <duration>37800</duration>
-      </backup>
+      <note>
+        <rest />
+        <duration>2520</duration>
+        <type>16th</type>
+      </note>
     </measure>
     <!--========================= Measure 3 ==========================-->
     <measure number="3">
@@ -284,15 +295,16 @@
           <octave>3</octave>
         </pitch>
         <duration>37800</duration>
-        <voice>0</voice>
         <type>half</type>
         <dot />
         <dot />
         <dot />
       </note>
-      <backup>
-        <duration>37800</duration>
-      </backup>
+      <note>
+        <rest />
+        <duration>2520</duration>
+        <type>16th</type>
+      </note>
     </measure>
     <!--========================= Measure 4 ==========================-->
     <measure number="4">
@@ -302,15 +314,16 @@
           <octave>3</octave>
         </pitch>
         <duration>37800</duration>
-        <voice>0</voice>
         <type>half</type>
         <dot />
         <dot />
         <dot />
       </note>
-      <backup>
-        <duration>37800</duration>
-      </backup>
+      <note>
+        <rest />
+        <duration>2520</duration>
+        <type>16th</type>
+      </note>
     </measure>
     <!--========================= Measure 5 ==========================-->
     <measure number="5">
@@ -320,82 +333,50 @@
           <octave>4</octave>
         </pitch>
         <duration>37800</duration>
-        <voice>0</voice>
         <type>half</type>
         <dot />
         <dot />
         <dot />
       </note>
-      <backup>
-        <duration>37800</duration>
-      </backup>
+      <note>
+        <rest />
+        <duration>2520</duration>
+        <type>16th</type>
+      </note>
     </measure>
     <!--========================= Measure 6 ==========================-->
     <measure number="6">
-      <note dynamics="88.89">
-        <pitch>
-          <step>B</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>37800</duration>
-        <voice>0</voice>
-        <type>half</type>
-        <dot />
-        <dot />
-        <dot />
+      <note>
+        <rest measure="yes" />
+        <duration>40320</duration>
       </note>
-      <backup>
-        <duration>37800</duration>
-      </backup>
     </measure>
     <!--========================= Measure 7 ==========================-->
     <measure number="7">
-      <note dynamics="88.89">
-        <pitch>
-          <step>A</step>
-          <octave>3</octave>
-        </pitch>
+      <note>
+        <rest measure="yes" />
         <duration>40320</duration>
-        <tie type="start" />
-        <voice>0</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="start" />
-        </notations>
       </note>
-      <backup>
-        <duration>40320</duration>
-      </backup>
     </measure>
     <!--========================= Measure 8 ==========================-->
     <measure number="8">
-      <note dynamics="88.89">
-        <pitch>
-          <step>A</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>37800</duration>
-        <tie type="stop" />
-        <voice>0</voice>
-        <type>half</type>
-        <dot />
-        <dot />
-        <dot />
-        <notations>
-          <tied type="stop" />
-        </notations>
+      <note>
+        <rest measure="yes" />
+        <duration>40320</duration>
       </note>
-      <backup>
-        <duration>37800</duration>
-      </backup>
+    </measure>
+    <!--========================= Measure 9 ==========================-->
+    <measure number="9">
       <note dynamics="88.89">
         <pitch>
           <step>G</step>
           <octave>3</octave>
         </pitch>
-        <duration>40320</duration>
-        <voice>1</voice>
-        <type>whole</type>
+        <duration>37800</duration>
+        <type>half</type>
+        <dot />
+        <dot />
+        <dot />
       </note>
       <barline location="right">
         <bar-style>light-heavy</bar-style>
@@ -403,7 +384,7 @@
     </measure>
   </part>
   <!--=========================== Part 3 ===========================-->
-  <part id="P029a1ce3af7fade18db01c60dc9333ba">
+  <part id="Pa507afe2f797246c412fe9a54eaac352">
     <!--========================= Measure 1 ==========================-->
     <measure number="1">
       <attributes>
@@ -531,21 +512,9 @@
     </measure>
     <!--========================= Measure 7 ==========================-->
     <measure number="7">
-      <note dynamics="88.89">
-        <pitch>
-          <step>F</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>37800</duration>
-        <type>half</type>
-        <dot />
-        <dot />
-        <dot />
-      </note>
       <note>
-        <rest />
-        <duration>2520</duration>
-        <type>16th</type>
+        <rest measure="yes" />
+        <duration>40320</duration>
       </note>
     </measure>
     <!--========================= Measure 8 ==========================-->

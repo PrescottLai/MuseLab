@@ -5,7 +5,7 @@
   <identification>
     <creator type="composer">Music21</creator>
     <encoding>
-      <encoding-date>2021-03-25</encoding-date>
+      <encoding-date>2021-03-27</encoding-date>
       <software>music21 v.6.1.0</software>
     </encoding>
   </identification>
@@ -16,21 +16,21 @@
     </scaling>
   </defaults>
   <part-list>
-    <score-part id="Pa09703fe4f834cce50968ca3c56a30f1">
+    <score-part id="Ped18cf792b67c272113b27417c17d51f">
       <part-name>Piano</part-name>
       <part-abbreviation>Pno</part-abbreviation>
-      <score-instrument id="I3421c505876238757ea07f7e1e9f5308">
+      <score-instrument id="I74aa28e79ac1f859d508419ae5e0ae28">
         <instrument-name>Piano</instrument-name>
         <instrument-abbreviation>Pno</instrument-abbreviation>
       </score-instrument>
-      <midi-instrument id="I3421c505876238757ea07f7e1e9f5308">
+      <midi-instrument id="I74aa28e79ac1f859d508419ae5e0ae28">
         <midi-channel>1</midi-channel>
         <midi-program>1</midi-program>
       </midi-instrument>
     </score-part>
   </part-list>
   <!--=========================== Part 1 ===========================-->
-  <part id="Pa09703fe4f834cce50968ca3c56a30f1">
+  <part id="Ped18cf792b67c272113b27417c17d51f">
     <!--========================= Measure 1 ==========================-->
     <measure number="1">
       <attributes>
@@ -279,20 +279,8 @@
         <dot />
         <lyric name="1" number="1">
           <syllabic>single</syllabic>
-          <text>V</text>
+          <text>v5</text>
         </lyric>
-      </note>
-      <note>
-        <chord />
-        <pitch>
-          <step>B</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>37800</duration>
-        <type>half</type>
-        <dot />
-        <dot />
-        <dot />
       </note>
       <note>
         <chord />
@@ -316,38 +304,6 @@
     <measure number="7">
       <note>
         <pitch>
-          <step>F</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>37800</duration>
-        <type>half</type>
-        <dot />
-        <dot />
-        <dot />
-        <lyric name="1" number="1">
-          <syllabic>single</syllabic>
-          <text>IV</text>
-        </lyric>
-      </note>
-      <note>
-        <chord />
-        <pitch>
-          <step>A</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>37800</duration>
-        <tie type="start" />
-        <type>half</type>
-        <dot />
-        <dot />
-        <dot />
-        <notations>
-          <tied type="start" />
-        </notations>
-      </note>
-      <note>
-        <chord />
-        <pitch>
           <step>C</step>
           <octave>5</octave>
         </pitch>
@@ -356,62 +312,33 @@
         <dot />
         <dot />
         <dot />
-      </note>
-      <note>
-        <pitch>
-          <step>A</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>2520</duration>
-        <tie type="stop" />
-        <tie type="start" />
-        <type>16th</type>
-        <notations>
-          <tied type="stop" />
-          <tied type="start" />
-        </notations>
         <lyric name="1" number="1">
           <syllabic>single</syllabic>
-          <text>vi</text>
+          <text>i</text>
         </lyric>
+      </note>
+      <note>
+        <rest />
+        <duration>2520</duration>
+        <type>16th</type>
       </note>
     </measure>
     <!--========================= Measure 8 ==========================-->
     <measure number="8">
       <note>
         <pitch>
-          <step>G</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>37800</duration>
-        <tie type="start" />
-        <type>half</type>
-        <dot />
-        <dot />
-        <dot />
-        <notations>
-          <tied type="start" />
-        </notations>
-        <lyric name="1" number="1">
-          <syllabic>single</syllabic>
-          <text>vi62</text>
-        </lyric>
-      </note>
-      <note>
-        <chord />
-        <pitch>
           <step>A</step>
           <octave>3</octave>
         </pitch>
         <duration>37800</duration>
-        <tie type="stop" />
         <type>half</type>
         <dot />
         <dot />
         <dot />
-        <notations>
-          <tied type="stop" />
-        </notations>
+        <lyric name="1" number="1">
+          <syllabic>single</syllabic>
+          <text>vi5</text>
+        </lyric>
       </note>
       <note>
         <chord />
@@ -426,25 +353,30 @@
         <dot />
       </note>
       <note>
-        <pitch>
-          <step>G</step>
-          <octave>3</octave>
-        </pitch>
+        <rest />
         <duration>2520</duration>
-        <tie type="stop" />
         <type>16th</type>
-        <notations>
-          <tied type="stop" />
-        </notations>
-        <lyric name="1" number="1">
-          <syllabic>single</syllabic>
-          <text>v</text>
-        </lyric>
       </note>
     </measure>
     <!--========================= Measure 9 ==========================-->
     <measure number="9">
       <note>
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>37800</duration>
+        <type>half</type>
+        <dot />
+        <dot />
+        <dot />
+        <lyric name="1" number="1">
+          <syllabic>single</syllabic>
+          <text>i4</text>
+        </lyric>
+      </note>
+      <note>
+        <chord />
         <pitch>
           <step>C</step>
           <octave>4</octave>
@@ -454,10 +386,6 @@
         <dot />
         <dot />
         <dot />
-        <lyric name="1" number="1">
-          <syllabic>single</syllabic>
-          <text>i5</text>
-        </lyric>
       </note>
       <note>
         <chord />

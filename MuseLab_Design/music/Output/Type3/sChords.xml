@@ -8,7 +8,7 @@
   <identification>
     <creator type="composer">Music21</creator>
     <encoding>
-      <encoding-date>2021-03-25</encoding-date>
+      <encoding-date>2021-03-27</encoding-date>
       <software>music21 v.6.1.0</software>
       <software>music21 v.6.1.0</software>
     </encoding>
@@ -20,21 +20,21 @@
     </scaling>
   </defaults>
   <part-list>
-    <score-part id="P290d427f8fb3ac47d3423e9e1e4a2878">
+    <score-part id="Pa59add828227dc1a4c5f2acd0afdcfa6">
       <part-name>Violin</part-name>
       <part-abbreviation>Vln</part-abbreviation>
-      <score-instrument id="I69b9b8982ac21e1b57782cde84fdaa3a">
+      <score-instrument id="I178476432fad63bc61bcf8c02411b2aa">
         <instrument-name>Violin</instrument-name>
         <instrument-abbreviation>Vln</instrument-abbreviation>
       </score-instrument>
-      <midi-instrument id="I69b9b8982ac21e1b57782cde84fdaa3a">
+      <midi-instrument id="I178476432fad63bc61bcf8c02411b2aa">
         <midi-channel>1</midi-channel>
         <midi-program>41</midi-program>
       </midi-instrument>
     </score-part>
   </part-list>
   <!--=========================== Part 1 ===========================-->
-  <part id="P290d427f8fb3ac47d3423e9e1e4a2878">
+  <part id="Pa59add828227dc1a4c5f2acd0afdcfa6">
     <!--========================= Measure 1 ==========================-->
     <measure number="1">
       <attributes>
@@ -342,20 +342,8 @@
         <dot />
         <lyric name="1" number="1">
           <syllabic>single</syllabic>
-          <text>IV6</text>
+          <text>vi</text>
         </lyric>
-      </note>
-      <note>
-        <chord />
-        <pitch>
-          <step>F</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>37800</duration>
-        <type>half</type>
-        <dot />
-        <dot />
-        <dot />
       </note>
       <note>
         <chord />

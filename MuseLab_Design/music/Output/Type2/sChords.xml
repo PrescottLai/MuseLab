@@ -8,7 +8,7 @@
   <identification>
     <creator type="composer">Music21</creator>
     <encoding>
-      <encoding-date>2021-03-25</encoding-date>
+      <encoding-date>2021-03-27</encoding-date>
       <software>music21 v.6.1.0</software>
       <software>music21 v.6.1.0</software>
     </encoding>
@@ -20,21 +20,21 @@
     </scaling>
   </defaults>
   <part-list>
-    <score-part id="P383f9b00a2e00d615b44bd083123b021">
+    <score-part id="P276a31541943213f6132c92bf0642a5c">
       <part-name>Piano</part-name>
       <part-abbreviation>Pno</part-abbreviation>
-      <score-instrument id="I2536cff788f553c29d0a2b31a9ea073a">
+      <score-instrument id="I563d332e96a59e54a6f7f5de3a1197d2">
         <instrument-name>Piano</instrument-name>
         <instrument-abbreviation>Pno</instrument-abbreviation>
       </score-instrument>
-      <midi-instrument id="I2536cff788f553c29d0a2b31a9ea073a">
+      <midi-instrument id="I563d332e96a59e54a6f7f5de3a1197d2">
         <midi-channel>1</midi-channel>
         <midi-program>1</midi-program>
       </midi-instrument>
     </score-part>
   </part-list>
   <!--=========================== Part 1 ===========================-->
-  <part id="P383f9b00a2e00d615b44bd083123b021">
+  <part id="P276a31541943213f6132c92bf0642a5c">
     <!--========================= Measure 1 ==========================-->
     <measure number="1">
       <attributes>
@@ -270,20 +270,8 @@
         <dot />
         <lyric name="1" number="1">
           <syllabic>single</syllabic>
-          <text>IV6</text>
+          <text>vi</text>
         </lyric>
-      </note>
-      <note>
-        <chord />
-        <pitch>
-          <step>F</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>37800</duration>
-        <type>half</type>
-        <dot />
-        <dot />
-        <dot />
       </note>
       <note>
         <rest />
