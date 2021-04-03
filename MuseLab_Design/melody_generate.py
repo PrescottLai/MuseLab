@@ -2,17 +2,12 @@ import os
 from Add_BaseChord import *
 from Functions import *
 from mido import MetaMessage
+import platform
 
-
-# import pygame
-
-# def play_with_pygame(song):
-#    pygame.init()
-#    pygame.mixer.music.load(song)
-#    length = pygame.time.get_ticks()
-#    pygame.mixer.music.play()
-#    while pygame.mixer.music.get_busy():
-#       pygame.time.wait(length)
+system_name = platform.system()
+print(system_name)
+if system_name == 'Windows':
+    import win32api
 
 
 def melody_generate(file_path):
@@ -928,26 +923,26 @@ def melody_generate(file_path):
                 prev_c_num = CounterMelody_List[i - 1]
 
         diff_check = []  # reset list
-
-        if 1 < i < len(Note_SolFaNameList3rd[7]) - 4:
-            input_current_SolFa_name = \
-                Current_SolFa_Name(input_melody_key=melody_key.tonic.name, key_mode=melody_key.mode,
-                                   note_num=cur_note_num)
-            counter_current_SolFa_name = \
-                Current_SolFa_Name(input_melody_key=melody_key.tonic.name, key_mode=melody_key.mode,
-                                   note_num=CounterMelody_List[i])
-            print("input:", input_current_SolFa_name)
-            print("output:", counter_current_SolFa_name)
-            differ = input_current_SolFa_name - counter_current_SolFa_name
-            print("differ:", differ)
-            if differ == 0:
-                R = random.randint(0, 1)
-                if R == 1:
-                    if counter_current_SolFa_name == 1 or counter_current_SolFa_name == 2 or \
-                            counter_current_SolFa_name == 4 or counter_current_SolFa_name == 5:
-                        CounterMelody_List[i] = CounterMelody_List[i] - 3
-                    else:
-                        CounterMelody_List[i] = CounterMelody_List[i] - 4
+        # 
+        # if 1 < i < len(Note_SolFaNameList3rd[7]) - 4:
+        #     input_current_SolFa_name = \
+        #         Current_SolFa_Name(input_melody_key=melody_key.tonic.name, key_mode=melody_key.mode,
+        #                            note_num=cur_note_num)
+        #     counter_current_SolFa_name = \
+        #         Current_SolFa_Name(input_melody_key=melody_key.tonic.name, key_mode=melody_key.mode,
+        #                            note_num=CounterMelody_List[i])
+        #     print("input:", input_current_SolFa_name)
+        #     print("output:", counter_current_SolFa_name)
+        #     differ = input_current_SolFa_name - counter_current_SolFa_name
+        #     print("differ:", differ)
+        #     if differ == 0:
+        #         R = random.randint(0, 1)
+        #         if R == 1:
+        #             if counter_current_SolFa_name == 1 or counter_current_SolFa_name == 2 or \
+        #                     counter_current_SolFa_name == 4 or counter_current_SolFa_name == 5:
+        #                 CounterMelody_List[i] = CounterMelody_List[i] - 3
+        #             else:
+        #                 CounterMelody_List[i] = CounterMelody_List[i] - 4
         # debugging below
         print("CounterMelody_append_Num: ")
         print(CounterMelody_List[i])
@@ -1045,10 +1040,47 @@ def melody_generate(file_path):
         long_note_track.append(
             Message('note_on', note=long_snd_fin[j], velocity=long_snd_v[j], time=long_snd_t[j]))
     New_mid.save('./music/Output/Type1/new_song3rd.mid')
+    if system_name == "Windows":
+        try:
+            f = win32api.ShellExecute(0, 'open', 'MuseScore3.exe', './music/Output/Type1/new_song3rd.mid', '', 1)
+        except BaseException:
+            MuseScore = 0
+            # Debug
+            print(MuseScore)
+            print("打开乐谱失败")
+        else:
+            print(f)
+            if f == 42:
+                MuseScore = 1
+                print("打开乐谱成功")
+            else:
+                MuseScore = 0
+                print("打开乐谱失敗")
+        finally:
+            print("try 結束")
+
+    elif system_name == "Darwin":
+        try:
+            f = os.system("open -a MuseScore\ 3 ./music/Output/Type1/new_song3rd.mid")
+        except BaseException:
+            MuseScore = 0
+            # Debug
+            print(MuseScore)
+            print("打开乐谱失败")
+        else:
+            print("f:", f)
+            if f == 0:
+                MuseScore = 1
+                print("打开乐谱成功")
+            else:
+                MuseScore = 0
+                print("打开乐谱失敗")
+        finally:
+            print("try 結束")
+    else:
+        print("Please use this Application in Windows or Darwin/Mac system to have a better use.")
     New3rd = converter.parse('./music/Output/Type1/new_song3rd.mid')
     New3rd.write("xml", "./music/Output/Type1/new_song3rd.xml")
-    New3rd = converter.parse('./music/Output/Type1/new_song3rd.xml')
-    New3rd.show()
     # ---------------------------------------------------second MIDI file for base chords-----------------------------
     New_mid5th = MidiFile()
     track1_1 = MidiTrack()
@@ -1271,5 +1303,6 @@ def melody_generate(file_path):
     sChords.write("midi", "./music/Output/Type3/sChords.mid")
     sChords.write("xml", "./music/Output/Type3/sChords.xml")
 
+    return MuseScore
 # if __name__ == '__main__':
 #     melody_generate()
