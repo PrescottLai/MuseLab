@@ -1,0 +1,84 @@
+--------------------------------------------------------------------------------------------------------------------------------------
+BACKGround Music Function
+
+#from PyQt5 import QtCore, QtMultimedia
+
+
+# CURRENT_DIR = os.path.dirname(os.path.realpath("G:\AY4 material\CENG4998\pythonProject\music\Background_music16bit.wav"))
+#
+#
+# def Background_Music():
+#     filename = os.path.join(CURRENT_DIR, "Background_music16bit.wav")
+#
+#     # app = QtCore.QCoreApplication(sys.argv)
+#     QtMultimedia.QSound.play(filename)
+#     # end in 5 seconds:
+#     # QtCore.QTimer.singleShot(5 * 1000, app.quit)
+#     # sys.exit(app.exec_())
+-----------------------------------------------------------------------------------------------------------------------------------------
+# Chordify(): Every note in the score is now represented in a single chord and every moment where some element moves is also represented
+#.flat : it is a property, so no need (), and it will help us to analyze and remove all the Stream　Object but the things we need in a temporary stream, name_flat.
+    e.g. s = music_file
+         sc = s.Chordify(),
+         sc.flat # now we have all the chords in the stream but no Time Signature, Measure,etc
+-------------------------------------------------------------------------------------------------------------------------------------------
+3rd interval:
+            elif key.mode == 'minor':
+                if i == 0 or i == 1 or i == 2 or i == 3:
+                    if (int(Note_SolFaNameList3rd[i][j] / 12) - 1) <= 4:
+                        Note_SolFaNameList3rd[i][j] -= 3
+                    elif (int(Note_SolFaNameList3rd[i][j] / 12) - 1) == 5:
+                        Note_SolFaNameList3rd[i][j] -= 15
+                    elif (int(Note_SolFaNameList5th[i][j] / 12) - 1) == 6:
+                        Note_SolFaNameList3rd[i][j] -= 27
+                    elif (int(Note_SolFaNameList3rd[i][j] / 12) - 1) == 7:
+                        Note_SolFaNameList3rd[i][j] -= 39
+                    elif (int(Note_SolFaNameList3rd[i][j] / 12) - 1) == 8:
+                        Note_SolFaNameList3rd[i][j] -= 51
+                if i == 4 or i == 5 or i == 6:
+                    if (int(Note_SolFaNameList3rd[i][j] / 12) - 1) <= 4:
+                        Note_SolFaNameList3rd[i][j] -= 4
+                    elif (int(Note_SolFaNameList3rd[i][j] / 12) - 1) == 5:
+                        Note_SolFaNameList3rd[i][j] -= 16
+                    elif (int(Note_SolFaNameList3rd[i][j] / 12) - 1) == 6:
+                        Note_SolFaNameList3rd[i][j] -= 28
+                    elif (int(Note_SolFaNameList5th[i][j] / 12) - 1) == 7:
+                        Note_SolFaNameList3rd[i][j] -= 40
+                    elif (int(Note_SolFaNameList3rd[i][j] / 12) - 1) == 8:
+                        Note_SolFaNameList3rd[i][j] -= 52
+-----------------------------------------------------------------------------------------------------------------------------------
+5th intervals
+            if key.mode == 'minor':
+                if i == 3 or i == 5:
+                    if (int(Note_SolFaNameList5th[i][k] / 12) - 1) <= 4:
+                        Note_SolFaNameList5th[i][k] -= 6
+                    elif (int(Note_SolFaNameList5th[i][k] / 12) - 1) == 5:
+                        Note_SolFaNameList5th[i][k] -= 18
+                    elif (int(Note_SolFaNameList5th[i][k] / 12) - 1) == 6:
+                        Note_SolFaNameList5th[i][k] -= 30
+                    elif (int(Note_SolFaNameList5th[i][k] / 12) - 1) == 7:
+                        Note_SolFaNameList5th[i][k] -= 42
+                    elif (int(Note_SolFaNameList5th[i][k] / 12) - 1) == 8:
+                        Note_SolFaNameList5th[i][k] -= 54
+                elif i == 0 or i == 1 or i == 2 or i == 4:
+                    if (int(Note_SolFaNameList5th[i][k] / 12) - 1) <= 4:
+                        Note_SolFaNameList5th[i][k] -= 7
+                    elif (int(Note_SolFaNameList5th[i][k] / 12) - 1) == 5:
+                        Note_SolFaNameList5th[i][k] -= 19
+                    elif (int(Note_SolFaNameList5th[i][k] / 12) - 1) == 6:
+                        Note_SolFaNameList5th[i][k] -= 31
+                    elif (int(Note_SolFaNameList5th[i][k] / 12) - 1) == 7:
+                        Note_SolFaNameList5th[i][k] -= 43
+                    elif (int(Note_SolFaNameList5th[i][k] / 12) - 1) == 8:
+                        Note_SolFaNameList5th[i][k] -= 55
+                elif i == 6:
+                    if (int(Note_SolFaNameList5th[i][k] / 12) - 1) <= 4:
+                        Note_SolFaNameList5th[i][k] -= 8
+                    elif (int(Note_SolFaNameList5th[i][k] / 12) - 1) == 5:
+                        Note_SolFaNameList5th[i][k] -= 20
+                    elif (int(Note_SolFaNameList5th[i][k] / 12) - 1) == 6:
+                        Note_SolFaNameList5th[i][k] -= 32
+                    elif (int(Note_SolFaNameList5th[i][k] / 12) - 1) == 7:
+                        Note_SolFaNameList5th[i][k] -= 44
+                    elif (int(Note_SolFaNameList5th[i][k] / 12) - 1) == 8:
+                        Note_SolFaNameList5th[i][k] -= 56
