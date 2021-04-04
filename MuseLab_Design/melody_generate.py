@@ -1,13 +1,25 @@
 import os
+import numpy as np
+import platform
 from Add_BaseChord import *
 from Functions import *
 from mido import MetaMessage
-import platform
 
+print(platform.system())
 system_name = platform.system()
-print(system_name)
-if system_name == 'Windows':
+if system_name == "Windows":
     import win32api
+
+
+# import pygame
+
+# def play_with_pygame(song):
+#    pygame.init()
+#    pygame.mixer.music.load(song)
+#    length = pygame.time.get_ticks()
+#    pygame.mixer.music.play()
+#    while pygame.mixer.music.get_busy():
+#       pygame.time.wait(length)
 
 
 def melody_generate(file_path):
@@ -156,13 +168,13 @@ def melody_generate(file_path):
     L_note_3rd = []
     print("Generating Alto/Counter Melody......")
     for i in range(len(Note_SolFaNameList3rd[7])):
-        # print("i_Number: ", i)#debug
+        # debug
+        print("i_Number: ", i)
         cur_note_num = get_cur_note_no(SolFa_List, i)  # gets the current Input MIDI number with function
         # print("Current_Note_Num:")#debug
         # print(cur_note_num)#debug
         # print("SolFa_Name:")#debug
         # print(Note_SolFaNameList3rd[7][i])#debug
-
         if Note_SolFaNameList3rd[7][i] == 1:
             # print("flag")#debug
 
@@ -178,6 +190,14 @@ def melody_generate(file_path):
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
                 CounterMelody_List.append(Note_8ve)
                 FinalOrder_list5th.append(Note_5th)
+                if i % 2 == 1:
+                    if CounterMelody_List[i] - CounterMelody_List[i - 2] > 10:
+                        CounterMelody_List[i] = CounterMelody_List[i] - 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
+                        prev_c_num = CounterMelody_List[i]
+                    elif CounterMelody_List[i] - CounterMelody_List[i - 2] < -10:
+                        CounterMelody_List[i] = CounterMelody_List[i] + 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
                 continue
             # below is list for recording val. diff. of each chord(3,5,6,8), also in such order
             diff_check.append(int(Note_3rd - prev_c_num))
@@ -291,6 +311,14 @@ def melody_generate(file_path):
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
                 CounterMelody_List.append(Note_8ve)
                 FinalOrder_list5th.append(Note_5th)
+                if i % 2 == 1:
+                    if CounterMelody_List[i] - CounterMelody_List[i - 2] > 10:
+                        CounterMelody_List[i] = CounterMelody_List[i] - 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
+                        prev_c_num = CounterMelody_List[i]
+                    elif CounterMelody_List[i] - CounterMelody_List[i - 2] < -10:
+                        CounterMelody_List[i] = CounterMelody_List[i] + 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
                 continue
 
             diff_check.append(Note_3rd - prev_c_num)
@@ -398,6 +426,14 @@ def melody_generate(file_path):
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
                 CounterMelody_List.append(Note_8ve)
                 FinalOrder_list5th.append(Note_5th)
+                if i % 2 == 1:
+                    if CounterMelody_List[i] - CounterMelody_List[i - 2] > 10:
+                        CounterMelody_List[i] = CounterMelody_List[i] - 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
+                        prev_c_num = CounterMelody_List[i]
+                    elif CounterMelody_List[i] - CounterMelody_List[i - 2] < -10:
+                        CounterMelody_List[i] = CounterMelody_List[i] + 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
                 continue
 
             diff_check.append(Note_3rd - prev_c_num)
@@ -507,8 +543,14 @@ def melody_generate(file_path):
             print(prev_c_num)
             L_note_3rd.append(Note_3rd)
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
-                CounterMelody_List.append(Note_8ve)
-                FinalOrder_list5th.append(Note_5th)
+                if i % 2 == 1:
+                    if CounterMelody_List[i] - CounterMelody_List[i - 2] > 10:
+                        CounterMelody_List[i] = CounterMelody_List[i] - 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
+                        prev_c_num = CounterMelody_List[i]
+                    elif CounterMelody_List[i] - CounterMelody_List[i - 2] < -10:
+                        CounterMelody_List[i] = CounterMelody_List[i] + 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
                 continue
 
             diff_check.append(Note_3rd - prev_c_num)
@@ -616,6 +658,14 @@ def melody_generate(file_path):
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
                 CounterMelody_List.append(Note_8ve)
                 FinalOrder_list5th.append(Note_5th)
+                if i % 2 == 1:
+                    if CounterMelody_List[i] - CounterMelody_List[i - 2] > 10:
+                        CounterMelody_List[i] = CounterMelody_List[i] - 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
+                        prev_c_num = CounterMelody_List[i]
+                    elif CounterMelody_List[i] - CounterMelody_List[i - 2] < -10:
+                        CounterMelody_List[i] = CounterMelody_List[i] + 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
                 continue
 
             diff_check.append(Note_3rd - prev_c_num)
@@ -722,6 +772,14 @@ def melody_generate(file_path):
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
                 CounterMelody_List.append(Note_8ve)
                 FinalOrder_list5th.append(Note_5th)
+                if i % 2 == 1:
+                    if CounterMelody_List[i] - CounterMelody_List[i - 2] > 10:
+                        CounterMelody_List[i] = CounterMelody_List[i] - 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
+                        prev_c_num = CounterMelody_List[i]
+                    elif CounterMelody_List[i] - CounterMelody_List[i - 2] < -10:
+                        CounterMelody_List[i] = CounterMelody_List[i] + 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
                 continue
 
             diff_check.append(Note_3rd - prev_c_num)
@@ -829,6 +887,14 @@ def melody_generate(file_path):
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
                 CounterMelody_List.append(Note_8ve)
                 FinalOrder_list5th.append(Note_5th)
+                if i % 2 == 1:
+                    if CounterMelody_List[i] - CounterMelody_List[i - 2] > 10:
+                        CounterMelody_List[i] = CounterMelody_List[i] - 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
+                        prev_c_num = CounterMelody_List[i]
+                    elif CounterMelody_List[i] - CounterMelody_List[i - 2] < -10:
+                        CounterMelody_List[i] = CounterMelody_List[i] + 12
+                        CounterMelody_List[i - 1] = CounterMelody_List[i]
                 continue
 
             diff_check.append(Note_3rd - prev_c_num)
@@ -923,28 +989,78 @@ def melody_generate(file_path):
                 prev_c_num = CounterMelody_List[i - 1]
 
         diff_check = []  # reset list
-        # 
-        # if 1 < i < len(Note_SolFaNameList3rd[7]) - 4:
-        #     input_current_SolFa_name = \
-        #         Current_SolFa_Name(input_melody_key=melody_key.tonic.name, key_mode=melody_key.mode,
-        #                            note_num=cur_note_num)
-        #     counter_current_SolFa_name = \
-        #         Current_SolFa_Name(input_melody_key=melody_key.tonic.name, key_mode=melody_key.mode,
-        #                            note_num=CounterMelody_List[i])
-        #     print("input:", input_current_SolFa_name)
-        #     print("output:", counter_current_SolFa_name)
-        #     differ = input_current_SolFa_name - counter_current_SolFa_name
-        #     print("differ:", differ)
-        #     if differ == 0:
-        #         R = random.randint(0, 1)
-        #         if R == 1:
-        #             if counter_current_SolFa_name == 1 or counter_current_SolFa_name == 2 or \
-        #                     counter_current_SolFa_name == 4 or counter_current_SolFa_name == 5:
-        #                 CounterMelody_List[i] = CounterMelody_List[i] - 3
-        #             else:
-        #                 CounterMelody_List[i] = CounterMelody_List[i] - 4
+        #
+        if (1 < i < len(Note_SolFaNameList3rd[7]) - 4) and (i % 2 == 1):
+            input_current_SolFa_name = \
+                Current_SolFa_Name(input_melody_key=melody_key.tonic.name, key_mode=melody_key.mode,
+                                   note_num=cur_note_num)
+            counter_current_SolFa_name = \
+                Current_SolFa_Name(input_melody_key=melody_key.tonic.name, key_mode=melody_key.mode,
+                                   note_num=CounterMelody_List[i])
+            print("input:", input_current_SolFa_name)
+            print("output:", counter_current_SolFa_name)
+            differ = input_current_SolFa_name - counter_current_SolFa_name
+            print("differ:", differ)
+            # if differ <= 4:
+            #     CounterMelody_List[i-1] = CounterMelody_List[i-1] - 12
+            #     CounterMelody_List[i] = CounterMelody_List[i]-12
+            #     prev_c_num = CounterMelody_List[i]
+            # 尽量避免太多Unison的重复。
+            if differ == 0:
+                R = np.random.choice([0, 1, 2], replace=True, p=[0.4, 0.4, 0.2])
+                # R = random.randint(0, 1)
+                print("Random Number:", R)
+                print("CounterMelody_append_Num: ")
+                print(CounterMelody_List[i])
+                if R == 0:
+                    if counter_current_SolFa_name == 1 or counter_current_SolFa_name == 2 or \
+                            counter_current_SolFa_name == 4 or counter_current_SolFa_name == 5:
+                        CounterMelody_List[i - 1] = CounterMelody_List[i - 1] - 3
+                        CounterMelody_List[i] = CounterMelody_List[i] - 3
+                        prev_c_num = CounterMelody_List[i]
+                    else:
+                        CounterMelody_List[i - 1] = CounterMelody_List[i - 1] - 4
+                        CounterMelody_List[i] = CounterMelody_List[i] - 4
+                        prev_c_num = CounterMelody_List[i]
+                elif R == 1:
+                    if counter_current_SolFa_name == 1 or counter_current_SolFa_name == 4 \
+                            or counter_current_SolFa_name == 5:
+                        CounterMelody_List[i - 1] = CounterMelody_List[i - 1] + 4
+                        CounterMelody_List[i] = CounterMelody_List[i] + 4
+                        prev_c_num = CounterMelody_List[i]
+                    else:
+                        CounterMelody_List[i - 1] = CounterMelody_List[i - 1] + 3
+                        CounterMelody_List[i] = CounterMelody_List[i] + 3
+                        prev_c_num = CounterMelody_List[i]
+
+            #避免Counter Melody 音与音直接跨度太大而导致旋律不连贯, 避免过多的重复音出现在Counter Melody
+        if i > 1 and i % 2 == 1:
+            if CounterMelody_List[i] - CounterMelody_List[i-2] > 12:
+                CounterMelody_List[i] = CounterMelody_List[i] - 12
+                CounterMelody_List[i-1] = CounterMelody_List[i]
+                prev_c_num = CounterMelody_List[i]
+            elif CounterMelody_List[i] - CounterMelody_List [i-2] < -12:
+                CounterMelody_List[i] = CounterMelody_List[i] + 12
+                CounterMelody_List[i - 1] = CounterMelody_List[i]
+                prev_c_num = CounterMelody_List[i]
+            elif CounterMelody_List[i] - CounterMelody_List[i-2] == 0:
+                counter_current_SolFa_name = \
+                    Current_SolFa_Name(input_melody_key=melody_key.tonic.name, key_mode=melody_key.mode,
+                                       note_num=CounterMelody_List[i])
+                R = np.random.choice([0, 1], replace=True, p=[0.5, 0.5])
+                if R == 1:
+                    if counter_current_SolFa_name == 1 or counter_current_SolFa_name == 4 \
+                            or counter_current_SolFa_name == 5:
+                        CounterMelody_List[i - 1] = CounterMelody_List[i - 1] + 4
+                        CounterMelody_List[i] = CounterMelody_List[i] + 4
+                        prev_c_num = CounterMelody_List[i]
+                    else:
+                        CounterMelody_List[i - 1] = CounterMelody_List[i - 1] + 3
+                        CounterMelody_List[i] = CounterMelody_List[i] + 3
+                        prev_c_num = CounterMelody_List[i]
+
         # debugging below
-        print("CounterMelody_append_Num: ")
+        print("CounterMelody_append_Num_after: ")
         print(CounterMelody_List[i])
         print("Current note num: ")
         print(cur_note_num)
@@ -965,11 +1081,11 @@ def melody_generate(file_path):
     print(note_list)
     print(time_list[0])
     for x in range(len(note_list[0])):  # G major test supposed results: 67,69,67,67,69,67,76,76,74,67
-        if l_check == 4 and time_list[0][x + 1] != 1823:
+        if l_check >= 4 and time_list[0][x + 1] != 1823:
             long_snd.append(L_note_3rd[x])
-            l_check = 0
-            print(x)
-            continue
+            l_check = l_check - 4
+            print("这是什么：", x)
+            # continue
         else:
             if time_list[0][x] == 1823:  # whole note
                 long_snd.append(L_note_3rd[x])
@@ -978,6 +1094,14 @@ def melody_generate(file_path):
                 l_check = l_check + 2
             elif time_list[0][x] == 455:  # quarter note
                 l_check = l_check + 1
+            elif time_list[0][x] == 227:
+                l_check = l_check + 0.5
+            elif time_list[0][x] == 1139:
+                l_check = l_check + 1.5
+            elif time_list[0][x] == 1367:
+                l_check = l_check + 3
+            elif time_list[0][x] == 2279:
+                l_check = l_check + 5
     print("Long sound list: ", long_snd)  # debug
     for y in range(len(long_snd)):
         if y == 0:  # pure hard-coding
@@ -1040,21 +1164,24 @@ def melody_generate(file_path):
         long_note_track.append(
             Message('note_on', note=long_snd_fin[j], velocity=long_snd_v[j], time=long_snd_t[j]))
     New_mid.save('./music/Output/Type1/new_song3rd.mid')
+    New3rd = converter.parse('./music/Output/Type1/new_song3rd.mid')
     if system_name == "Windows":
         try:
             f = win32api.ShellExecute(0, 'open', 'MuseScore3.exe', './music/Output/Type1/new_song3rd.mid', '', 1)
         except BaseException:
             MuseScore = 0
             # Debug
-            print(MuseScore)
+            print("MuseScore:", MuseScore)
             print("打开乐谱失败")
         else:
-            print(f)
+            print("f：", f)
             if f == 42:
                 MuseScore = 1
+                print("MuseScore:", MuseScore)
                 print("打开乐谱成功")
             else:
                 MuseScore = 0
+                print("MuseScore:", MuseScore)
                 print("打开乐谱失敗")
         finally:
             print("try 結束")
@@ -1068,7 +1195,7 @@ def melody_generate(file_path):
             print(MuseScore)
             print("打开乐谱失败")
         else:
-            print("f:", f)
+            print(f)
             if f == 0:
                 MuseScore = 1
                 print("打开乐谱成功")
@@ -1079,8 +1206,8 @@ def melody_generate(file_path):
             print("try 結束")
     else:
         print("Please use this Application in Windows or Darwin/Mac system to have a better use.")
-    New3rd = converter.parse('./music/Output/Type1/new_song3rd.mid')
     New3rd.write("xml", "./music/Output/Type1/new_song3rd.xml")
+
     # ---------------------------------------------------second MIDI file for base chords-----------------------------
     New_mid5th = MidiFile()
     track1_1 = MidiTrack()
