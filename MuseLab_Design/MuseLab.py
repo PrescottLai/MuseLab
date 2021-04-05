@@ -30,7 +30,7 @@ class SubWindow(QMainWindow):
         super(SubWindow, self).__init__(*args, **kwargs)
         self.setWindowTitle("MuseLab")
         self.setFixedWidth(1159)
-        self.setFixedHeight(750)
+        self.setFixedHeight(700)
         self.center()
         self.UiComponents()
         self.setStyleSheet("background-image: url(./image/melody_generate.jpg);")
@@ -48,7 +48,7 @@ class SubWindow(QMainWindow):
 
     def UiComponents(self):
         button1 = QPushButton("Re-Orchestrate", self)
-        button1.setGeometry(200, 310, 250, 50)
+        button1.setGeometry(460, 225, 250, 50)
         button1.setFixedWidth(250)
         button1.setFixedHeight(50)
         font = QtGui.QFont()
@@ -60,7 +60,7 @@ class SubWindow(QMainWindow):
         button1.setStyleSheet("color: rgb(255, 255, 255);")
         button1.clicked.connect(self.ChordState)
         button2 = QPushButton("Own Creation", self)
-        button2.setGeometry(690, 310, 250, 50)
+        button2.setGeometry(460, 300, 250, 50)
         button2.setFixedWidth(250)
         button2.setFixedHeight(50)
         font = QtGui.QFont()
@@ -72,17 +72,17 @@ class SubWindow(QMainWindow):
         button2.setStyleSheet("color: rgb(255, 255, 255);")
         button2.clicked.connect(self.LabState)
 
-        button3 = QToolButton(self)
-        button3.setGeometry(40, 100, 250, 50)
-        button3.setIcon(QIcon("./image/return-icon2.jpg"))
-        button3.setFixedWidth(50)
-        button3.setFixedHeight(30)
-        # font = QtGui.QFont()
-        # font.setFamily("Orange LET")
-        # font.setPixelSize(24)
-        # font.setBold(True)
-        # font.setWeight(75),0,0
-        # button3.setFont(font)
+        button3 = QPushButton("Go Back", self)
+        button3.setGeometry(460, 375, 250, 50)
+        # button3.setIcon(QIcon("./image/return-icon2.jpg"))
+        button3.setFixedWidth(250)
+        button3.setFixedHeight(50)
+        font = QtGui.QFont()
+        font.setFamily("Orange LET")
+        font.setPixelSize(24)
+        font.setBold(True)
+        font.setWeight(75)
+        button3.setFont(font)
 
         button3.clicked.connect(self.Return)
 
@@ -397,6 +397,7 @@ class Ui_MainWindow(QMainWindow):
         # originally it is :/music.jpg, but it is wrong with“ ：”， should be "."
         app_icon = QIcon("./image/muselab_icon.jpg")
         MainWindow.setWindowIcon(app_icon)
+        self.center()
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.selectFile = QtWidgets.QPushButton(self.centralwidget)
@@ -413,6 +414,7 @@ class Ui_MainWindow(QMainWindow):
         self.selectFile.setFont(font)
         self.selectFile.setStyleSheet("color:rgb(255, 170, 0); background-color: rgb(229, 251, 255)")
         self.selectFile.setObjectName("selectFile")
+        self.selectFile.setToolTip("Click and Open the file dialog")
         self.welcomeSentence = QtWidgets.QLabel(self.centralwidget)
         self.welcomeSentence.setGeometry(QtCore.QRect(320, 150, 511, 41))
         # self.welcomeSentence = QtWidgets.QLabel(self.centralwidget)
@@ -512,6 +514,11 @@ class Ui_MainWindow(QMainWindow):
         # self.actionOpenFIle.triggered.connect(MainWindow.buttonClicked)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         # PLAY BACKGROUND MUSIC
+    def center(self):
+        screen = QDesktopWidget().screenGeometry()
+        size = self.geometry()
+        self.move((screen.width() - size.width()) / 2,
+                  (screen.height() - size.height()) / 2)
 
     def closeState(self):
         print("close for sure?")

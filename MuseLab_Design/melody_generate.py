@@ -1033,17 +1033,17 @@ def melody_generate(file_path):
                         CounterMelody_List[i] = CounterMelody_List[i] + 3
                         prev_c_num = CounterMelody_List[i]
 
-            #避免Counter Melody 音与音直接跨度太大而导致旋律不连贯, 避免过多的重复音出现在Counter Melody
+            # 避免Counter Melody 音与音直接跨度太大而导致旋律不连贯, 避免过多的重复音出现在Counter Melody
         if i > 1 and i % 2 == 1:
-            if CounterMelody_List[i] - CounterMelody_List[i-2] > 12:
+            if CounterMelody_List[i] - CounterMelody_List[i - 2] > 12:
                 CounterMelody_List[i] = CounterMelody_List[i] - 12
-                CounterMelody_List[i-1] = CounterMelody_List[i]
+                CounterMelody_List[i - 1] = CounterMelody_List[i]
                 prev_c_num = CounterMelody_List[i]
-            elif CounterMelody_List[i] - CounterMelody_List [i-2] < -12:
+            elif CounterMelody_List[i] - CounterMelody_List[i - 2] < -12:
                 CounterMelody_List[i] = CounterMelody_List[i] + 12
                 CounterMelody_List[i - 1] = CounterMelody_List[i]
                 prev_c_num = CounterMelody_List[i]
-            elif CounterMelody_List[i] - CounterMelody_List[i-2] == 0:
+            elif CounterMelody_List[i] - CounterMelody_List[i - 2] == 0:
                 counter_current_SolFa_name = \
                     Current_SolFa_Name(input_melody_key=melody_key.tonic.name, key_mode=melody_key.mode,
                                        note_num=CounterMelody_List[i])
@@ -1070,7 +1070,8 @@ def melody_generate(file_path):
             prev_note_num = cur_note_num  # update previous note number to current note number
         # print("Program ran for the ", i+1, "th time")
 
-    # -----------------Create the Tenor part which is the third track with long notes--------------------
+    # -----------------Create the Tenor part which is the third track with long notes in 4/4 Rhythm--------------------
+    # We can get the numerator and denominator in MIDI file and set the different rules.
     long_snd = []  # get 1st note of each bar
     long_snd_t = []  # get time of long sound list
     long_snd_fin = []  # doubles all elements within list
@@ -1082,8 +1083,12 @@ def melody_generate(file_path):
     print(time_list[0])
     for x in range(len(note_list[0])):  # G major test supposed results: 67,69,67,67,69,67,76,76,74,67
         if l_check >= 4 and time_list[0][x + 1] != 1823:
-            long_snd.append(L_note_3rd[x])
-            l_check = l_check - 4
+            if l_check > 4 and x != 0:
+                long_snd.append(L_note_3rd[x - 1])
+                l_check = l_check - 4
+            else:
+                long_snd.append(L_note_3rd[x])
+                l_check = l_check - 4
             print("这是什么：", x)
             # continue
         else:
@@ -1102,18 +1107,49 @@ def melody_generate(file_path):
                 l_check = l_check + 3
             elif time_list[0][x] == 2279:
                 l_check = l_check + 5
+    if l_check > 4:
+        long_snd.append(L_note_3rd[:-1])
+        l_check = l_check - 4
     print("Long sound list: ", long_snd)  # debug
+    print("l_check: ", l_check)
+
     for y in range(len(long_snd)):
         if y == 0:  # pure hard-coding
             long_snd_t.append(0)
-            long_snd_fin.append(long_snd[0] - 12)
+            long_snd_fin.append(long_snd[0] - 24)
             long_snd_t.append(1823)
-            long_snd_fin.append(long_snd[0] - 12)
+            long_snd_fin.append(long_snd[0] - 24)
+        elif y == len(long_snd) - 1:
+            long_snd_t.append(97)
+            long_snd_fin.append(long_snd[0] - 24)
+            if l_check == 0.5:
+                long_snd_t.append(227)
+                long_snd_fin.append(long_snd[0] - 24)
+            elif l_check == 1:
+                long_snd_t.append(455)
+                long_snd_fin.append(long_snd[0] - 24)
+            elif l_check == 1.5:
+                long_snd_t.append(1139)
+                long_snd_fin.append(long_snd[0] - 24)
+            elif l_check == 2:
+                long_snd_t.append(911)
+                long_snd_fin.append(long_snd[0] - 24)
+
+            # NOTE TO SELF:
+            # NEEDS TO ADD l_check == 2.5 and l_check == 3.5 CASES HERE!!!
+            # CURRENTLY MISSING!!
+
+            elif l_check == 3:
+                long_snd_t.append(1367)
+                long_snd_fin.append(long_snd[0] - 24)
+            elif l_check == 4:
+                long_snd_t.append(1823)
+                long_snd_fin.append(long_snd[0] - 24)
         else:
             long_snd_t.append(97)
-            long_snd_fin.append(long_snd[y] - 12)
+            long_snd_fin.append(long_snd[y] - 24)
             long_snd_t.append(1823)
-            long_snd_fin.append(long_snd[y] - 12)
+            long_snd_fin.append(long_snd[y] - 24)
         long_snd_v.append(80)
         long_snd_v.append(0)
     # LONG NOTES / Tenor PART ENDS HERE!
@@ -1140,31 +1176,54 @@ def melody_generate(file_path):
     print("Long sound list length: ", len(long_snd_fin))
     # --------------------------------Put the note number Back to original midi file------------------------------------
     track1 = MidiTrack()
-    track3rd = MidiTrack()
-    long_note_track = MidiTrack()
+    track2 = MidiTrack()
+    track3 = MidiTrack()
+    track4 = MidiTrack()
     New_mid = MidiFile()
-    print("Type_Of_Track: ", type(track3rd))
+    print("Type_Of_Track: ", type(track2))
     New_mid.tracks.append(track1)
-    New_mid.tracks.append(track3rd)
-    New_mid.tracks.append(long_note_track)
+    New_mid.tracks.append(track2)
+    New_mid.tracks.append(track3)
+    New_mid.tracks.append(track4)
+    # Violin 1
     track1.append(Message('program_change', channel=0, program=40, time=0))
     track1.append(MetaMessage('set_tempo', tempo=Tempo, time=0))
     for j in range(len(channel_list[0])):
         track1.append(Message('note_on', note=note_list[0][j], velocity=velocity_list[0][j], time=time_list[0][j]))
-
-    track3rd.append(Message('program_change', channel=0, program=41, time=0))
-    track3rd.append(MetaMessage('set_tempo', tempo=Tempo, time=0))
+    # Violin 2
+    track2.append(Message('program_change', channel=0, program=40, time=0))
+    track2.append(MetaMessage('set_tempo', tempo=Tempo, time=0))
     for j in range(len(CounterMelody_List)):
-        track3rd.append(
-            Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j], time=time_list[0][j]))
-
-    long_note_track.append(Message('program_change', channel=0, program=42, time=0))
-    long_note_track.append(MetaMessage('set_tempo', tempo=Tempo, time=0))
+        if j % 2 == 0:
+            track2.append(
+                Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j]-20, time=time_list[0][j]))
+        else:
+            track2.append(
+                Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j], time=time_list[0][j]))
+    # Viola
+    track3.append(Message('program_change', channel=0, program=41, time=0))
+    track3.append(MetaMessage('set_tempo', tempo=Tempo, time=0))
+    for j in range(len(CounterMelody_List)):
+        if j % 2 == 0:
+            track3.append(
+                Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j]-20, time=time_list[0][j]))
+        else:
+            track3.append(
+                Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j], time=time_list[0][j]))
+    # Cello
+    track4.append(Message('program_change', channel=0, program=43, time=0))
+    track4.append(MetaMessage('set_tempo', tempo=Tempo, time=0))
     for j in range(len(long_snd_fin)):
-        long_note_track.append(
-            Message('note_on', note=long_snd_fin[j], velocity=long_snd_v[j], time=long_snd_t[j]))
+        if j % 2 == 0:
+            track4.append(
+                Message('note_on', note=long_snd_fin[j], velocity=long_snd_v[j]-10, time=long_snd_t[j]))
+        else:
+            track4.append(
+                Message('note_on', note=long_snd_fin[j], velocity=long_snd_v[j], time=long_snd_t[j]))
     New_mid.save('./music/Output/Type1/new_song3rd.mid')
     New3rd = converter.parse('./music/Output/Type1/new_song3rd.mid')
+
+    # Open the output through MuseScore in different system
     if system_name == "Windows":
         try:
             f = win32api.ShellExecute(0, 'open', 'MuseScore3.exe', './music/Output/Type1/new_song3rd.mid', '', 1)
@@ -1184,6 +1243,7 @@ def melody_generate(file_path):
                 print("MuseScore:", MuseScore)
                 print("打开乐谱失敗")
         finally:
+            win32api.ShellExecute(0, 'open', 'MuseScore3.exe', './music/Output/Input.mid', '', 1)
             print("try 結束")
 
     elif system_name == "Darwin":
@@ -1203,232 +1263,233 @@ def melody_generate(file_path):
                 MuseScore = 0
                 print("打开乐谱失敗")
         finally:
+            os.system("open -a MuseScore\ 3 ./music/Output/Input.mid")
             print("try 結束")
     else:
         print("Please use this Application in Windows or Darwin/Mac system to have a better use.")
     New3rd.write("xml", "./music/Output/Type1/new_song3rd.xml")
 
     # ---------------------------------------------------second MIDI file for base chords-----------------------------
-    New_mid5th = MidiFile()
-    track1_1 = MidiTrack()
-    track3_3rd = MidiTrack()
-    track5th = MidiTrack()
-    New_mid5th.tracks.append(track1_1)
-    track1_1.append(Message('program_change', channel=2, program=0, time=0))
-    for j in range(len(channel_list[0])):
-        track1_1.append(Message('note_on', note=note_list[0][j], velocity=velocity_list[0][j], time=time_list[0][j]))
-
-    New_mid5th.tracks.append(track3_3rd)
-    track3_3rd.append(Message('program_change', channel=2, program=0, time=0))
-    for j in range(len(CounterMelody_List)):
-        track3_3rd.append(
-            Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j], time=time_list[0][j]))
-
-    New_mid5th.tracks.append(track5th)
-    track5th.append(Message('program_change', channel=2, program=42, time=0))
-    for j in range(len(FinalOrder_list5th)):
-        track5th.append(Message('note_on', channel=15, note=FinalOrder_list5th[j], velocity=velocity_list[0][j],
-                                time=time_list[0][j]))
-
-    New_mid5th.save('./music/Output/Type1/new_song5th.mid')
-    New5th = converter.parse('./music/Output/Type1/new_song5th.mid')
-    New5th.write("xml", "./music/Output/Type1/new_song5th.xml")
-    s = converter.parse('./music/Output/Type1/new_song5th.mid')
-    sChords = s.chordify()
-    print("sChords_Info: ", sChords)
-
-    sFlat = sChords.flat
-    print("sFlat_Info: ", sFlat)
-
-    sOnlyChords = sFlat.getElementsByClass('Chord')
-    print("sOnlyChords_Info: ", sOnlyChords)
-
-    displayPart = stream.Part(id='displayPart')
-    print("displayPart_Info: ", displayPart)
-
-    def appendChordPairs(this_Chord, next_Chord):
-        # if (thisChord.isTriad() is True or
-        #         thisChord.isSeventh() is True and
-        #         thisChord.root().name == 'F'):
-        closePositionThisChord = this_Chord.closedPosition(forceOctave=4)
-        closePositionNextChord = next_Chord.closedPosition(forceOctave=4)
-
-        m = stream.Measure()
-        m.append(closePositionThisChord)
-        m.append(closePositionNextChord)
-        displayPart.append(m)
-
-    for i in range(len(sOnlyChords) - 1):
-        thisChord = sOnlyChords[i]
-        nextChord = sOnlyChords[i + 1]
-        appendChordPairs(thisChord, nextChord)
-
-    print("display_part_Length: ", len(displayPart))
-
-    print(melody_key.tonic.name, melody_key.mode)
-    for c in displayPart.recurse().getElementsByClass('Chord'):
-        rn = roman.romanNumeralFromChord(c, melody_key)
-        c.addLyric(str(rn.figure))
-    for c in sChords.recurse().getElementsByClass('Chord'):
-        rn = roman.romanNumeralFromChord(c, melody_key)
-        c.closedPosition(forceOctave=4)
-        c.addLyric(str(rn.figure))
+    # New_mid5th = MidiFile()
+    # track1_1 = MidiTrack()
+    # track3_3rd = MidiTrack()
+    # track5th = MidiTrack()
+    # New_mid5th.tracks.append(track1_1)
+    # track1_1.append(Message('program_change', channel=2, program=0, time=0))
+    # for j in range(len(channel_list[0])):
+    #     track1_1.append(Message('note_on', note=note_list[0][j], velocity=velocity_list[0][j], time=time_list[0][j]))
     #
-
-    # displayPart.plot('piano-roll')
-    # s.plot('piano-roll')
-    # sChords.plot('piano-roll')
-    # displayPart.show()
-    # sChords.show()
-    sChords.write("midi", "./music/Output/Type1/sChords.mid")
-    sChords.write("xml", "./music/Output/Type1/sChords.xml")
-    fp1 = os.path.join('./music/Output/Type1', "new_song3rd.mid")
-    fp2 = os.path.join('./music/Output/Type1', "sChords.mid")
-    Add_Base_Chords_type1(fp1, fp2)
-    # ---------------------------------------------Type2 Chords----------------------------------------------
-    New_mid = MidiFile()
-    track3_3rd = MidiTrack()
-    track5th = MidiTrack()
-    New_mid.tracks.append(track3_3rd)
-    track3_3rd.append(Message('program_change', channel=2, program=0, time=0))
+    # New_mid5th.tracks.append(track3_3rd)
+    # track3_3rd.append(Message('program_change', channel=2, program=0, time=0))
     # for j in range(len(CounterMelody_List)):
-    #    track3_3rd.append(
-    #        Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j], time=time_list[0][j]))
-    for j in range(len(long_snd_fin)):
-        track3_3rd.append(
-            Message('note_on', note=long_snd_fin[j], velocity=long_snd_v[j], time=long_snd_t[j]))
-        # track3_3rd.append(
-        #    Message('note_on', note=long_snd_fin[j], velocity=long_snd_v[j], time=long_snd_t[j]))
-
-    New_mid.tracks.append(track5th)
-    track5th.append(Message('program_change', channel=2, program=0, time=0))
-    for j in range(len(FinalOrder_list5th)):
-        track5th.append(Message('note_on', channel=15, note=FinalOrder_list5th[j], velocity=velocity_list[0][j],
-                                time=time_list[0][j]))
-
-    New_mid.save('./music/Output/Type2/new_song3+5.mid')
-    New = converter.parse('./music/Output/Type2/new_song3+5.mid')
-    New.write("xml", "./music/Output/Type2/new_song3+5.xml")
-    s1 = converter.parse('./music/Output/Type2/new_song3+5.xml')
-
-    sChords = s1.chordify()
-    print("sChords_Info: ", sChords)
-
-    sFlat = sChords.flat
-    print("sFlat_Info: ", sFlat)
-
-    sOnlyChords = sFlat.getElementsByClass('Chord')
-    print("sOnlyChords_Info: ", sOnlyChords)
-
-    displayPart = stream.Part(id='displayPart')
-    print("display_Part_Info: ", displayPart)
-
-    def appendChordPairs(this_Chord, next_Chord):
-        # if (thisChord.isTriad() is True or
-        #         thisChord.isSeventh() is True and
-        #         thisChord.root().name == 'F'):
-        closePositionThisChord = this_Chord.closedPosition(forceOctave=4)
-        closePositionNextChord = next_Chord.closedPosition(forceOctave=4)
-
-        m = stream.Measure()
-        m.append(closePositionThisChord)
-        m.append(closePositionNextChord)
-        displayPart.append(m)
-
-    for i in range(len(sOnlyChords) - 1):
-        thisChord = sOnlyChords[i]
-        nextChord = sOnlyChords[i + 1]
-        appendChordPairs(thisChord, nextChord)
-
-    print("display_part_Length: ", len(displayPart))
-
-    print(melody_key.tonic.name, melody_key.mode)
-    for c in displayPart.recurse().getElementsByClass('Chord'):
-        rn = roman.romanNumeralFromChord(c, melody_key)
-        c.addLyric(str(rn.figure))
-    for c in sChords.recurse().getElementsByClass('Chord'):
-        rn = roman.romanNumeralFromChord(c, melody_key)
-        c.closedPosition(forceOctave=4)
-        c.addLyric(str(rn.figure))
-
-    sChords.write("midi", "./music/Output/Type2/sChords.mid")
-    sChords.write("xml", "./music/Output/Type2/sChords.xml")
-    fp3 = os.path.join('./music/Output/Type1', "new_song3rd.mid")
-    fp4 = os.path.join('./music/Output/Type2', "sChords.mid")
-    Add_Base_Chords_type2(fp3, fp4)
-    # ------------------------------Type3______________--------------------------------------------------
-    New_mid = MidiFile()
-    track1_1 = MidiTrack()
-    track3_3rd = MidiTrack()
-    track5th = MidiTrack()
-    New_mid.tracks.append(track1_1)
-    track1_1.append(Message('program_change', channel=2, program=40, time=0))
-    for j in range(len(channel_list[0])):
-        track1_1.append(Message('note_on', note=note_list[0][j], velocity=velocity_list[0][j], time=time_list[0][j]))
-
-    New_mid.tracks.append(track3_3rd)
-    track3_3rd.append(Message('program_change', channel=2, program=41, time=0))
-    # for j in range(len(CounterMelody_List)):
-    #    track3_3rd.append(
-    #        Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j], time=time_list[0][j]))
-    for j in range(len(long_snd_fin)):
-        track3_3rd.append(
-            Message('note_on', note=long_snd_fin[j], velocity=long_snd_v[j], time=long_snd_t[j]))
-
-    New_mid.tracks.append(track5th)
-    track5th.append(Message('program_change', channel=2, program=70, time=0))
-    for j in range(len(FinalOrder_list5th)):
-        track5th.append(Message('note_on', channel=15, note=FinalOrder_list5th[j], velocity=velocity_list[0][j],
-                                time=time_list[0][j]))
-
-    New_mid.save('./music/Output/Type3/New_Song_Type3.mid')
-    New = converter.parse('./music/Output/Type3/New_Song_Type3.mid')
-    New.write("xml", "./music/Output/Type3/New_Song_Type3.xml")
-    New.write("midi", "./music/Output/Type3/New_Song_Type3.mid")
-    s2 = converter.parse('./music/Output/Type3/New_Song_Type3.xml')
-    sChords = s2.chordify()
-
-    print("sChords_Info: ", sChords)
-
-    sFlat = sChords.flat
-    print("sFlat_Info: ", sFlat)
-
-    sOnlyChords = sFlat.getElementsByClass('Chord')
-    print("sOnlyChords_Info: ", sOnlyChords)
-
-    displayPart = stream.Part(id='displayPart')
-    print("display_Part_Info: ", displayPart)
-
-    def appendChordPairs(this_Chord, next_Chord):
-        # if (thisChord.isTriad() is True or
-        #         thisChord.isSeventh() is True and
-        #         thisChord.root().name == 'F'):
-        closePositionThisChord = this_Chord.closedPosition(forceOctave=4)
-        closePositionNextChord = next_Chord.closedPosition(forceOctave=4)
-
-        m = stream.Measure()
-        m.append(closePositionThisChord)
-        m.append(closePositionNextChord)
-        displayPart.append(m)
-
-    for i in range(len(sOnlyChords) - 1):
-        thisChord = sOnlyChords[i]
-        nextChord = sOnlyChords[i + 1]
-        appendChordPairs(thisChord, nextChord)
-
-    print("display_part_Length: ", len(displayPart))
-
-    print(melody_key.tonic.name, melody_key.mode)
-    for c in displayPart.recurse().getElementsByClass('Chord'):
-        rn = roman.romanNumeralFromChord(c, melody_key)
-        c.addLyric(str(rn.figure))
-    for c in sChords.recurse().getElementsByClass('Chord'):
-        rn = roman.romanNumeralFromChord(c, melody_key)
-        c.closedPosition(forceOctave=4)
-        c.addLyric(str(rn.figure))
-
-    sChords.write("midi", "./music/Output/Type3/sChords.mid")
-    sChords.write("xml", "./music/Output/Type3/sChords.xml")
+    #     track3_3rd.append(
+    #         Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j], time=time_list[0][j]))
+    #
+    # New_mid5th.tracks.append(track5th)
+    # track5th.append(Message('program_change', channel=2, program=42, time=0))
+    # for j in range(len(FinalOrder_list5th)):
+    #     track5th.append(Message('note_on', channel=15, note=FinalOrder_list5th[j], velocity=velocity_list[0][j],
+    #                             time=time_list[0][j]))
+    #
+    # New_mid5th.save('./music/Output/Type1/new_song5th.mid')
+    # New5th = converter.parse('./music/Output/Type1/new_song5th.mid')
+    # New5th.write("xml", "./music/Output/Type1/new_song5th.xml")
+    # s = converter.parse('./music/Output/Type1/new_song3rd.mid')
+    # sChords = s.chordify()
+    # print("sChords_Info: ", sChords)
+    #
+    # sFlat = sChords.flat
+    # print("sFlat_Info: ", sFlat)
+    #
+    # sOnlyChords = sFlat.getElementsByClass('Chord')
+    # print("sOnlyChords_Info: ", sOnlyChords)
+    #
+    # displayPart = stream.Part(id='displayPart')
+    # print("displayPart_Info: ", displayPart)
+    #
+    # def appendChordPairs(this_Chord, next_Chord):
+    #     # if (thisChord.isTriad() is True or
+    #     #         thisChord.isSeventh() is True and
+    #     #         thisChord.root().name == 'F'):
+    #     closePositionThisChord = this_Chord.closedPosition(forceOctave=4)
+    #     closePositionNextChord = next_Chord.closedPosition(forceOctave=4)
+    #
+    #     m = stream.Measure()
+    #     m.append(closePositionThisChord)
+    #     m.append(closePositionNextChord)
+    #     displayPart.append(m)
+    #
+    # for i in range(len(sOnlyChords) - 1):
+    #     thisChord = sOnlyChords[i]
+    #     nextChord = sOnlyChords[i + 1]
+    #     appendChordPairs(thisChord, nextChord)
+    #
+    # print("display_part_Length: ", len(displayPart))
+    #
+    # print(melody_key.tonic.name, melody_key.mode)
+    # for c in displayPart.recurse().getElementsByClass('Chord'):
+    #     rn = roman.romanNumeralFromChord(c, melody_key)
+    #     c.addLyric(str(rn.figure))
+    # for c in sChords.recurse().getElementsByClass('Chord'):
+    #     rn = roman.romanNumeralFromChord(c, melody_key)
+    #     c.closedPosition(forceOctave=4)
+    #     c.addLyric(str(rn.figure))
+    # #
+    #
+    # # displayPart.plot('piano-roll')
+    # # s.plot('piano-roll')
+    # # sChords.plot('piano-roll')
+    # # displayPart.show()
+    # # sChords.show()
+    # sChords.write("midi", "./music/Output/Type1/sChords.mid")
+    # sChords.write("xml", "./music/Output/Type1/sChords.xml")
+    # fp1 = os.path.join('./music/Output/Type1', "new_song3rd.mid")
+    # fp2 = os.path.join('./music/Output/Type1', "sChords.mid")
+    # Add_Base_Chords_type1(fp1, fp2)
+    # # ---------------------------------------------Type2 Chords----------------------------------------------
+    # New_mid = MidiFile()
+    # track3_3rd = MidiTrack()
+    # track5th = MidiTrack()
+    # New_mid.tracks.append(track3_3rd)
+    # track3_3rd.append(Message('program_change', channel=2, program=0, time=0))
+    # # for j in range(len(CounterMelody_List)):
+    # #    track3_3rd.append(
+    # #        Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j], time=time_list[0][j]))
+    # for j in range(len(long_snd_fin)):
+    #     track3_3rd.append(
+    #         Message('note_on', note=long_snd_fin[j], velocity=long_snd_v[j], time=long_snd_t[j]))
+    #     # track3_3rd.append(
+    #     #    Message('note_on', note=long_snd_fin[j], velocity=long_snd_v[j], time=long_snd_t[j]))
+    #
+    # New_mid.tracks.append(track5th)
+    # track5th.append(Message('program_change', channel=2, program=0, time=0))
+    # for j in range(len(FinalOrder_list5th)):
+    #     track5th.append(Message('note_on', channel=15, note=FinalOrder_list5th[j], velocity=velocity_list[0][j],
+    #                             time=time_list[0][j]))
+    #
+    # New_mid.save('./music/Output/Type2/new_song3+5.mid')
+    # New = converter.parse('./music/Output/Type2/new_song3+5.mid')
+    # New.write("xml", "./music/Output/Type2/new_song3+5.xml")
+    # s1 = converter.parse('./music/Output/Type2/new_song3+5.xml')
+    #
+    # sChords = s1.chordify()
+    # print("sChords_Info: ", sChords)
+    #
+    # sFlat = sChords.flat
+    # print("sFlat_Info: ", sFlat)
+    #
+    # sOnlyChords = sFlat.getElementsByClass('Chord')
+    # print("sOnlyChords_Info: ", sOnlyChords)
+    #
+    # displayPart = stream.Part(id='displayPart')
+    # print("display_Part_Info: ", displayPart)
+    #
+    # def appendChordPairs(this_Chord, next_Chord):
+    #     # if (thisChord.isTriad() is True or
+    #     #         thisChord.isSeventh() is True and
+    #     #         thisChord.root().name == 'F'):
+    #     closePositionThisChord = this_Chord.closedPosition(forceOctave=4)
+    #     closePositionNextChord = next_Chord.closedPosition(forceOctave=4)
+    #
+    #     m = stream.Measure()
+    #     m.append(closePositionThisChord)
+    #     m.append(closePositionNextChord)
+    #     displayPart.append(m)
+    #
+    # for i in range(len(sOnlyChords) - 1):
+    #     thisChord = sOnlyChords[i]
+    #     nextChord = sOnlyChords[i + 1]
+    #     appendChordPairs(thisChord, nextChord)
+    #
+    # print("display_part_Length: ", len(displayPart))
+    #
+    # print(melody_key.tonic.name, melody_key.mode)
+    # for c in displayPart.recurse().getElementsByClass('Chord'):
+    #     rn = roman.romanNumeralFromChord(c, melody_key)
+    #     c.addLyric(str(rn.figure))
+    # for c in sChords.recurse().getElementsByClass('Chord'):
+    #     rn = roman.romanNumeralFromChord(c, melody_key)
+    #     c.closedPosition(forceOctave=4)
+    #     c.addLyric(str(rn.figure))
+    #
+    # sChords.write("midi", "./music/Output/Type2/sChords.mid")
+    # sChords.write("xml", "./music/Output/Type2/sChords.xml")
+    # fp3 = os.path.join('./music/Output/Type1', "new_song3rd.mid")
+    # fp4 = os.path.join('./music/Output/Type2', "sChords.mid")
+    # Add_Base_Chords_type2(fp3, fp4)
+    # # ------------------------------Type3______________--------------------------------------------------
+    # New_mid = MidiFile()
+    # track1_1 = MidiTrack()
+    # track3_3rd = MidiTrack()
+    # track5th = MidiTrack()
+    # New_mid.tracks.append(track1_1)
+    # track1_1.append(Message('program_change', channel=2, program=40, time=0))
+    # for j in range(len(channel_list[0])):
+    #     track1_1.append(Message('note_on', note=note_list[0][j], velocity=velocity_list[0][j], time=time_list[0][j]))
+    #
+    # New_mid.tracks.append(track3_3rd)
+    # track3_3rd.append(Message('program_change', channel=2, program=41, time=0))
+    # # for j in range(len(CounterMelody_List)):
+    # #    track3_3rd.append(
+    # #        Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j], time=time_list[0][j]))
+    # for j in range(len(long_snd_fin)):
+    #     track3_3rd.append(
+    #         Message('note_on', note=long_snd_fin[j], velocity=long_snd_v[j], time=long_snd_t[j]))
+    #
+    # New_mid.tracks.append(track5th)
+    # track5th.append(Message('program_change', channel=2, program=70, time=0))
+    # for j in range(len(FinalOrder_list5th)):
+    #     track5th.append(Message('note_on', channel=15, note=FinalOrder_list5th[j], velocity=velocity_list[0][j],
+    #                             time=time_list[0][j]))
+    #
+    # New_mid.save('./music/Output/Type3/New_Song_Type3.mid')
+    # New = converter.parse('./music/Output/Type3/New_Song_Type3.mid')
+    # New.write("xml", "./music/Output/Type3/New_Song_Type3.xml")
+    # New.write("midi", "./music/Output/Type3/New_Song_Type3.mid")
+    # s2 = converter.parse('./music/Output/Type3/New_Song_Type3.xml')
+    # sChords = s2.chordify()
+    #
+    # print("sChords_Info: ", sChords)
+    #
+    # sFlat = sChords.flat
+    # print("sFlat_Info: ", sFlat)
+    #
+    # sOnlyChords = sFlat.getElementsByClass('Chord')
+    # print("sOnlyChords_Info: ", sOnlyChords)
+    #
+    # displayPart = stream.Part(id='displayPart')
+    # print("display_Part_Info: ", displayPart)
+    #
+    # def appendChordPairs(this_Chord, next_Chord):
+    #     # if (thisChord.isTriad() is True or
+    #     #         thisChord.isSeventh() is True and
+    #     #         thisChord.root().name == 'F'):
+    #     closePositionThisChord = this_Chord.closedPosition(forceOctave=4)
+    #     closePositionNextChord = next_Chord.closedPosition(forceOctave=4)
+    #
+    #     m = stream.Measure()
+    #     m.append(closePositionThisChord)
+    #     m.append(closePositionNextChord)
+    #     displayPart.append(m)
+    #
+    # for i in range(len(sOnlyChords) - 1):
+    #     thisChord = sOnlyChords[i]
+    #     nextChord = sOnlyChords[i + 1]
+    #     appendChordPairs(thisChord, nextChord)
+    #
+    # print("display_part_Length: ", len(displayPart))
+    #
+    # print(melody_key.tonic.name, melody_key.mode)
+    # for c in displayPart.recurse().getElementsByClass('Chord'):
+    #     rn = roman.romanNumeralFromChord(c, melody_key)
+    #     c.addLyric(str(rn.figure))
+    # for c in sChords.recurse().getElementsByClass('Chord'):
+    #     rn = roman.romanNumeralFromChord(c, melody_key)
+    #     c.closedPosition(forceOctave=4)
+    #     c.addLyric(str(rn.figure))
+    #
+    # sChords.write("midi", "./music/Output/Type3/sChords.mid")
+    # sChords.write("xml", "./music/Output/Type3/sChords.xml")
 
     return MuseScore
 # if __name__ == '__main__':
