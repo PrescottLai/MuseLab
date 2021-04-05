@@ -54,7 +54,7 @@ def Get_SolFa_Name_Order(fp):
                 si_list.append(note_list[0][j])
                 order_list.append(7)
 
-    if (input_key.tonic.name == 'C#' or input_key.tonic.name == 'Db') and\
+    if (input_key.tonic.name == 'C+' or input_key.tonic.name == 'D-') and\
             ((input_key.mode == 'major') or (input_key.mode == 'minor')):
         for j in range(len(note_list[0])):
             if note_list[0][j] % 12 == 1:
@@ -104,7 +104,7 @@ def Get_SolFa_Name_Order(fp):
                 si_list.append(note_list[0][j])
                 order_list.append(7)
 
-    if (input_key.tonic.name == 'D#' or input_key.tonic.name == 'Eb') and\
+    if (input_key.tonic.name == 'D+' or input_key.tonic.name == 'E-') and\
             ((input_key.mode == 'major') or (input_key.mode == 'minor')):
         for j in range(len(note_list[0])):
             if note_list[0][j] % 12 == 3:
@@ -154,7 +154,7 @@ def Get_SolFa_Name_Order(fp):
                 si_list.append(note_list[0][j])
                 order_list.append(7)
 
-    if (input_key.tonic.name == 'E#' or input_key.tonic.name == 'F') and\
+    if (input_key.tonic.name == 'E+' or input_key.tonic.name == 'F') and\
             ((input_key.mode == 'major') or (input_key.mode == 'minor')):
         for j in range(len(note_list[0])):
             if note_list[0][j] % 12 == 5:
@@ -179,7 +179,7 @@ def Get_SolFa_Name_Order(fp):
                 si_list.append(note_list[0][j])
                 order_list.append(7)
 
-    if (input_key.tonic.name == 'F#' or input_key.tonic.name == 'Gb') and\
+    if (input_key.tonic.name == 'F+' or input_key.tonic.name == 'G-') and\
             ((input_key.mode == 'major') or (input_key.mode == 'minor')):
         for j in range(len(note_list[0])):
             if note_list[0][j] % 12 == 6:
@@ -230,7 +230,7 @@ def Get_SolFa_Name_Order(fp):
                 si_list.append(note_list[0][j])
                 order_list.append(7)
 
-    if (input_key.tonic.name == 'G#' or input_key.tonic.name == 'Ab') and\
+    if (input_key.tonic.name == 'G+' or input_key.tonic.name == 'A-') and\
             ((input_key.mode == 'major') or (input_key.mode == 'minor')):
         for j in range(len(note_list[0])):
             if note_list[0][j] % 12 == 8:
@@ -280,7 +280,7 @@ def Get_SolFa_Name_Order(fp):
                 si_list.append(note_list[0][j])
                 order_list.append(7)
 
-    if (input_key.tonic.name == 'A#' or input_key.tonic.name == 'Bb') and\
+    if (input_key.tonic.name == 'A+' or input_key.tonic.name == 'B-') and\
             ((input_key.mode == 'major') or (input_key.mode == 'minor')):
         for j in range(len(note_list[0])):
             if note_list[0][j] % 12 == 10:
@@ -359,7 +359,7 @@ def Current_SolFa_Name(input_melody_key, key_mode, note_num):
         elif note_num % 12 == 11 or note_num % 12 == 10:
             SolFa_num = 7
 
-    if (input_melody_key == 'C#' or input_melody_key == 'Db') and ((key_mode == 'major') or (key_mode == 'minor')):
+    if (input_melody_key == 'C+' or input_melody_key == 'D-') and ((key_mode == 'major') or (key_mode == 'minor')):
         if note_num % 12 == 1:
             SolFa_num = 1
         elif note_num % 12 == 3:
@@ -391,7 +391,7 @@ def Current_SolFa_Name(input_melody_key, key_mode, note_num):
         elif note_num % 12 == 1 or note_num % 12 == 0:
             SolFa_num = 7
 
-    if (input_melody_key == 'D#' or input_melody_key == 'Eb') and ((key_mode == 'major') or (key_mode == 'minor')):
+    if (input_melody_key == 'D+' or input_melody_key == 'E-') and ((key_mode == 'major') or (key_mode == 'minor')):
         if note_num % 12 == 3:
             SolFa_num = 1
         elif note_num % 12 == 5:
@@ -423,7 +423,7 @@ def Current_SolFa_Name(input_melody_key, key_mode, note_num):
         elif note_num % 12 == 3 or note_num % 12 == 2:
             SolFa_num = 7
 
-    if (input_melody_key == 'E#' or input_melody_key == 'F') and ((key_mode == 'major') or (key_mode == 'minor')):
+    if (input_melody_key == 'E+' or input_melody_key == 'F') and ((key_mode == 'major') or (key_mode == 'minor')):
         if note_num % 12 == 5:
             SolFa_num = 1
         elif note_num % 12 == 7:
@@ -439,7 +439,7 @@ def Current_SolFa_Name(input_melody_key, key_mode, note_num):
         elif note_num % 12 == 4 or note_num % 12 == 3:
             SolFa_num = 7
 
-    if (input_melody_key == 'F#' or input_melody_key == 'Gb') and ((key_mode == 'major') or (key_mode == 'minor')):
+    if (input_melody_key == 'F+' or input_melody_key == 'G-') and ((key_mode == 'major') or (key_mode == 'minor')):
         if note_num % 12 == 6:
             SolFa_num = 1
         elif note_num % 12 == 8:
@@ -471,7 +471,7 @@ def Current_SolFa_Name(input_melody_key, key_mode, note_num):
         elif note_num % 12 == 6 or note_num % 12 == 5:
             SolFa_num = 7
 
-    if (input_melody_key == 'G#' or input_melody_key == 'Ab') and ((key_mode == 'major') or (key_mode == 'minor')):
+    if (input_melody_key == 'G+' or input_melody_key == 'A-') and ((key_mode == 'major') or (key_mode == 'minor')):
         if note_num % 12 == 8:
             SolFa_num = 1
         elif note_num % 12 == 10:
@@ -503,7 +503,7 @@ def Current_SolFa_Name(input_melody_key, key_mode, note_num):
         elif note_num % 12 == 8 or note_num % 12 == 7:
             SolFa_num = 7
 
-    if (input_melody_key == 'A#' or input_melody_key == 'Bb') and ((key_mode == 'major') or (key_mode == 'minor')):
+    if (input_melody_key == 'A+' or input_melody_key == 'B-') and ((key_mode == 'major') or (key_mode == 'minor')):
         if note_num % 12 == 10:
             SolFa_num = 1
         elif note_num % 12 == 0:
