@@ -22,7 +22,7 @@ if system_name == "Windows":
 #       pygame.time.wait(length)
 
 
-def melody_generate(file_path):
+def melody_generate(file_path, instrument_type):
     s = converter.parse(file_path)
     mid = MidiFile(file_path)
     s.write("midi", "./music/Output/Input.mid")
@@ -166,6 +166,7 @@ def melody_generate(file_path):
 
     # loops
     L_note_3rd = []
+    L_note_5th = []
     print("Generating Alto/Counter Melody......")
     for i in range(len(Note_SolFaNameList3rd[7])):
         # debug
@@ -187,6 +188,7 @@ def melody_generate(file_path):
             print("Previous_C_Num:")  # debug
             print(prev_c_num)  # debug
             L_note_3rd.append(Note_3rd)
+            L_note_5th.append(Note_5th)
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
                 CounterMelody_List.append(Note_8ve)
                 FinalOrder_list5th.append(Note_5th)
@@ -308,6 +310,7 @@ def melody_generate(file_path):
             print("Previous_C_Num:")
             print(prev_c_num)
             L_note_3rd.append(Note_3rd)
+            L_note_5th.append(Note_5th)
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
                 CounterMelody_List.append(Note_8ve)
                 FinalOrder_list5th.append(Note_5th)
@@ -423,6 +426,7 @@ def melody_generate(file_path):
             print("Previous_C_Num:")
             print(prev_c_num)
             L_note_3rd.append(Note_3rd)
+            L_note_5th.append(Note_5th)
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
                 CounterMelody_List.append(Note_8ve)
                 FinalOrder_list5th.append(Note_5th)
@@ -542,6 +546,7 @@ def melody_generate(file_path):
             print("Previous_C_Num:")
             print(prev_c_num)
             L_note_3rd.append(Note_3rd)
+            L_note_5th.append(Note_5th)
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
                 if i % 2 == 1:
                     if CounterMelody_List[i] - CounterMelody_List[i - 2] > 10:
@@ -655,6 +660,7 @@ def melody_generate(file_path):
             print("Previous_C_Num:")
             print(prev_c_num)
             L_note_3rd.append(Note_3rd)
+            L_note_5th.append(Note_5th)
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
                 CounterMelody_List.append(Note_8ve)
                 FinalOrder_list5th.append(Note_5th)
@@ -769,6 +775,7 @@ def melody_generate(file_path):
             print("Previous_C_Num:")
             print(prev_c_num)
             L_note_3rd.append(Note_3rd)
+            L_note_5th.append(Note_5th)
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
                 CounterMelody_List.append(Note_8ve)
                 FinalOrder_list5th.append(Note_5th)
@@ -821,10 +828,14 @@ def melody_generate(file_path):
                             needed_num = diff_check.index(min([no for no in diff_check if no >= 0]))
                         # print("Flag")
                     else:
-                        Note_8ve += 12
-                        Note_6th += 12
-                        Note_5th += 12
-                        Note_3rd += 12
+                        while Note_8ve - prev_c_num  < 0:
+                            Note_8ve += 12
+                        while Note_6th - prev_c_num < 0:
+                            Note_6th += 12
+                        while Note_5th - prev_c_num < 0:
+                            Note_5th += 12
+                        while Note_3rd - prev_c_num < 0:
+                            Note_3rd += 12
                         diff_check[0] = (int(Note_3rd - prev_c_num))
                         diff_check[1] = (int(Note_5th - prev_c_num))
                         diff_check[2] = (int(Note_6th - prev_c_num))
@@ -884,6 +895,7 @@ def melody_generate(file_path):
             print("Previous_C_Num:")
             print(prev_c_num)
             L_note_3rd.append(Note_3rd)
+            L_note_5th.append(Note_5th)
             if i == len(Note_SolFaNameList3rd[7]) - 2 or i == len(Note_SolFaNameList3rd[7]) - 1:  # The last note
                 CounterMelody_List.append(Note_8ve)
                 FinalOrder_list5th.append(Note_5th)
@@ -1001,10 +1013,6 @@ def melody_generate(file_path):
             print("output:", counter_current_SolFa_name)
             differ = input_current_SolFa_name - counter_current_SolFa_name
             print("differ:", differ)
-            # if differ <= 4:
-            #     CounterMelody_List[i-1] = CounterMelody_List[i-1] - 12
-            #     CounterMelody_List[i] = CounterMelody_List[i]-12
-            #     prev_c_num = CounterMelody_List[i]
             # 尽量避免太多Unison的重复。
             if differ == 0:
                 R = np.random.choice([0, 1, 2], replace=True, p=[0.4, 0.4, 0.2])
@@ -1154,12 +1162,97 @@ def melody_generate(file_path):
         long_snd_v.append(0)
     # LONG NOTES / Tenor PART ENDS HERE!
 
+    # long_snd_5 = []  # get 1st note of each bar
+    # long_snd_t_5 = []  # get time of long sound list
+    # long_snd_fin_5 = []  # doubles all elements within list
+    # long_snd_v_5 = []  # self made velocity
+    # l_check = 4  # need to be checked for 1st time
+    # print("Generating Tenor......")
+    # print(Note_SolFaNameList3rd)
+    # print(note_list)
+    # print(time_list[0])
+    # for x in range(len(note_list[0])):  # G major test supposed results: 67,69,67,67,69,67,76,76,74,67
+    #     if l_check >= 4 and time_list[0][x + 1] != 1823:
+    #         if l_check > 4 and x != 0:
+    #             long_snd_5.append(L_note_5th[x - 1])
+    #             l_check = l_check - 4
+    #         else:
+    #             long_snd_5.append(L_note_5th[x])
+    #             l_check = l_check - 4
+    #         print("这是什么：", x)
+    #         # continue
+    #     else:
+    #         if time_list[0][x] == 1823:  # whole note
+    #             long_snd_5.append(L_note_5th[x])
+    #             print(x)
+    #         elif time_list[0][x] == 911:  # half note
+    #             l_check = l_check + 2
+    #         elif time_list[0][x] == 455:  # quarter note
+    #             l_check = l_check + 1
+    #         elif time_list[0][x] == 227:
+    #             l_check = l_check + 0.5
+    #         elif time_list[0][x] == 1139:
+    #             l_check = l_check + 1.5
+    #         elif time_list[0][x] == 1367:
+    #             l_check = l_check + 3
+    #         elif time_list[0][x] == 2279:
+    #             l_check = l_check + 5
+    # if l_check > 4:
+    #     long_snd_5.append(L_note_5th[:-1])
+    #     l_check = l_check - 4
+    # print("Long sound list_5: ", long_snd_5)  # debug
+    # print("l_check: ", l_check)
+    #
+    # for y in range(len(long_snd_5)):
+    #     if y == 0:  # pure hard-coding
+    #         long_snd_t_5.append(0)
+    #         long_snd_fin_5.append(long_snd_5[0] - 12)
+    #         long_snd_t_5.append(1823)
+    #         long_snd_fin_5.append(long_snd_5[0] - 12)
+    #     elif y == len(long_snd_5) - 1:
+    #         long_snd_t_5.append(97)
+    #         long_snd_fin_5.append(long_snd_5[0] - 12)
+    #         if l_check == 0.5:
+    #             long_snd_t_5.append(227)
+    #             long_snd_fin_5.append(long_snd_5[0] - 12)
+    #         elif l_check == 1:
+    #             long_snd_t_5.append(455)
+    #             long_snd_fin_5.append(long_snd_5[0] - 12)
+    #         elif l_check == 1.5:
+    #             long_snd_t_5.append(1139)
+    #             long_snd_fin_5.append(long_snd_5[0] - 12)
+    #         elif l_check == 2:
+    #             long_snd_t_5.append(911)
+    #             long_snd_fin_5.append(long_snd_5[0] - 12)
+    #
+    #         # NOTE TO SELF:
+    #         # NEEDS TO ADD l_check == 2.5 and l_check == 3.5 CASES HERE!!!
+    #         # CURRENTLY MISSING!!
+    #
+    #         elif l_check == 3:
+    #             long_snd_t_5.append(1367)
+    #             long_snd_fin_5.append(long_snd_5[0] - 12)
+    #         elif l_check == 4:
+    #             long_snd_t_5.append(1823)
+    #             long_snd_fin_5.append(long_snd_5[0] - 12)
+    #     else:
+    #         long_snd_t_5.append(97)
+    #         long_snd_fin_5.append(long_snd_5[y] - 12)
+    #         long_snd_t_5.append(1823)
+    #         long_snd_fin_5.append(long_snd_5[y] - 12)
+    #     long_snd_v_5.append(80)
+    #     long_snd_v_5.append(0)
     # ------------------------------------Checking and Debug--------------------------------------
     print("long_snd_fin:", long_snd_fin)
     print("long_snd_t:", long_snd_t)
     print("long_snd_v:", long_snd_v)
     print("long_snd:", long_snd)
     print("L_note_3rd:", L_note_3rd)
+    # print("long_snd_fin_5:", long_snd_fin_5)
+    # print("long_snd_t_5:", long_snd_t_5)
+    # print("long_snd_v_5:", long_snd_v_5)
+    # print("long_snd_5:", long_snd_5)
+    # print("L_note_5th:", L_note_5th)
     print("N_List: ", note_list[0])
     print("V_List: ", velocity_list[0])
     print("T_List: ", time_list[0])
@@ -1174,7 +1267,79 @@ def melody_generate(file_path):
     print("List_Length: ", len(time_list[0]))
     print("Counter_List_Length:", len(CounterMelody_List))
     print("Long sound list length: ", len(long_snd_fin))
-    # --------------------------------Put the note number Back to original midi file------------------------------------
+    # --------------------------------Create a new Midi File------------------------------------
+    track3_note = long_snd_fin
+    program_l = []
+    # Violin Quartet1
+    if instrument_type == 1 or instrument_type == False:
+        program_l = [40, 40, 41, 42]
+        # Violin 40 音域控制 G3-D7, 55-98
+        for i in range(len(CounterMelody_List)):
+            while CounterMelody_List[i] < 55:
+                CounterMelody_List[i] += 12
+            while CounterMelody_List[i] > 98:
+                CounterMelody_List[i] -= 12
+        # Viola 41 音域控制 G3-D7,but maybe G3-D5 will be better for quartet, 55-74
+        for i in range(len(long_snd_fin)):
+            while track3_note[i]+12 < 55:
+                track3_note[i] += 12
+            while track3_note[i]+12 > 79:
+                track3_note[i] -= 12
+        # Cello 42 音域控制 C2-G5, 36-79
+        for i in range(len(long_snd_fin)):
+            while long_snd_fin[i] < 36:
+                long_snd_fin[i] += 12
+            while long_snd_fin[i] > 79:
+                long_snd_fin[i] -= 12
+
+    # Violin Quartet2
+    elif instrument_type == 2:
+        program_l = [40, 40, 41, 43]
+        # Violin 40 音域控制 G3-D7, 55-98
+        for i in range(len(CounterMelody_List)):
+            while CounterMelody_List[i] < 55:
+                CounterMelody_List[i] += 12
+            while CounterMelody_List[i] > 98:
+                CounterMelody_List[i] -= 12
+        # Viola 41 音域控制 G3-D7,but maybe G3-D5 will be better for quartet, 55-74
+        for i in range(len(long_snd_fin)):
+            if track3_note[i]+12 < 55:
+                track3_note[i] = track3_note[i] + 12
+            if track3_note[i]+12 > 79:
+                track3_note[i] = track3_note[i] - 12
+        #Contrabass 43 音域控制 E1-C4, 28-60
+        for i in range(len(long_snd_fin)):
+            while long_snd_fin[i] < 28:
+                long_snd_fin[i] += 12
+            while long_snd_fin[i] > 60:
+                long_snd_fin[i] -= 12
+    # Wind Quartet
+    elif instrument_type == 3:
+        program_l = [73, 68, 71, 70]
+    # Brass Quartet
+    elif instrument_type == 4:
+        program_l = [56, 56, 60, 57]
+    # Saxophone Quartet
+    elif instrument_type == 5:
+        program_l = [64, 65, 66, 67]
+    # Pad2 + Vio.
+    elif instrument_type == 6:
+        program_l = [89, 89, 41, 42]
+
+        # Viola 41 音域控制 G3-D7,but maybe G3-D5 will be better for quartet, 55-74
+        for i in range(len(long_snd_fin)):
+            while track3_note[i]+12 < 55:
+                track3_note[i] += 12
+            while track3_note[i]+12 > 79:
+                track3_note[i] -= 12
+        # Cello 42 音域控制 C2-G5, 36-79
+        for i in range(len(long_snd_fin)):
+            while long_snd_fin[i] < 36:
+                long_snd_fin[i] += 12
+            while long_snd_fin[i] > 79:
+                long_snd_fin[i] -= 12
+
+    print("Program_List: ", program_l)
     track1 = MidiTrack()
     track2 = MidiTrack()
     track3 = MidiTrack()
@@ -1186,12 +1351,12 @@ def melody_generate(file_path):
     New_mid.tracks.append(track3)
     New_mid.tracks.append(track4)
     # Violin 1
-    track1.append(Message('program_change', channel=0, program=40, time=0))
+    track1.append(Message('program_change', channel=0, program=program_l[0], time=0))
     track1.append(MetaMessage('set_tempo', tempo=Tempo, time=0))
     for j in range(len(channel_list[0])):
         track1.append(Message('note_on', note=note_list[0][j], velocity=velocity_list[0][j], time=time_list[0][j]))
     # Violin 2
-    track2.append(Message('program_change', channel=0, program=40, time=0))
+    track2.append(Message('program_change', channel=0, program=program_l[1], time=0))
     track2.append(MetaMessage('set_tempo', tempo=Tempo, time=0))
     for j in range(len(CounterMelody_List)):
         if j % 2 == 0:
@@ -1200,18 +1365,18 @@ def melody_generate(file_path):
         else:
             track2.append(
                 Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j], time=time_list[0][j]))
-    # Viola
-    track3.append(Message('program_change', channel=0, program=41, time=0))
+        # Viola
+    track3.append(Message('program_change', channel=0, program=program_l[2], time=0))
     track3.append(MetaMessage('set_tempo', tempo=Tempo, time=0))
-    for j in range(len(CounterMelody_List)):
+    for j in range(len(long_snd_fin)):
         if j % 2 == 0:
             track3.append(
-                Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j]-20, time=time_list[0][j]))
+                Message('note_on', note=track3_note[j]+12, velocity=long_snd_v[j]-10, time=long_snd_t[j]))
         else:
             track3.append(
-                Message('note_on', note=CounterMelody_List[j], velocity=velocity_list[0][j], time=time_list[0][j]))
-    # Cello
-    track4.append(Message('program_change', channel=0, program=43, time=0))
+                Message('note_on', note=long_snd_fin[j]+12, velocity=long_snd_v[j], time=long_snd_t[j]))
+        # Cello
+    track4.append(Message('program_change', channel=0, program=program_l[3], time=0))
     track4.append(MetaMessage('set_tempo', tempo=Tempo, time=0))
     for j in range(len(long_snd_fin)):
         if j % 2 == 0:
@@ -1220,13 +1385,14 @@ def melody_generate(file_path):
         else:
             track4.append(
                 Message('note_on', note=long_snd_fin[j], velocity=long_snd_v[j], time=long_snd_t[j]))
-    New_mid.save('./music/Output/Type1/new_song3rd.mid')
-    New3rd = converter.parse('./music/Output/Type1/new_song3rd.mid')
+    New_mid.save('./music/Output/MuseLab_Song.mid')
+
+    New3rd = converter.parse('./music/Output/MuseLab_Song.mid')
 
     # Open the output through MuseScore in different system
     if system_name == "Windows":
         try:
-            f = win32api.ShellExecute(0, 'open', 'MuseScore3.exe', './music/Output/Type1/new_song3rd.mid', '', 1)
+            f = win32api.ShellExecute(0, 'open', 'MuseScore3.exe', './music/Output/MuseLab_Song.mid', '', 1)
         except BaseException:
             MuseScore = 0
             # Debug
@@ -1248,7 +1414,7 @@ def melody_generate(file_path):
 
     elif system_name == "Darwin":
         try:
-            f = os.system("open -a MuseScore\ 3 ./music/Output/Type1/new_song3rd.mid")
+            f = os.system("open -a MuseScore\ 3 ./music/Output/MuseLab_Song.mid")
         except BaseException:
             MuseScore = 0
             # Debug
@@ -1267,7 +1433,7 @@ def melody_generate(file_path):
             print("try 結束")
     else:
         print("Please use this Application in Windows or Darwin/Mac system to have a better use.")
-    New3rd.write("xml", "./music/Output/Type1/new_song3rd.xml")
+    New3rd.write("xml", "./music/Output/MuseLab_Song.xml")
 
     # ---------------------------------------------------second MIDI file for base chords-----------------------------
     # New_mid5th = MidiFile()

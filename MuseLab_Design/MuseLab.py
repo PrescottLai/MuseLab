@@ -13,10 +13,13 @@ import sys
 import webbrowser
 import pygame
 
+system_name = platform.system()
+if system_name == "Windows":
+    import win32api
 pygame.init()
 pygame.mixer.init()
-sounda = pygame.mixer.Sound("./music/BackGround_Music/Background_music16s.wav")
-sounda.play()
+sound_a = pygame.mixer.Sound("./music/BackGround_Music/Background_music16s.wav")
+sound_a.play()
 
 
 # CURRENT_DIR = os.path.dirname(os.path.realpath
@@ -25,28 +28,69 @@ sounda.play()
 # QtMultimedia.QSound.play(filename)
 
 
-class SubWindow(QMainWindow):
+class instrument_Window(QMainWindow):
+    instrument_sig = pyqtSignal(int)
+
     def __init__(self, *args, **kwargs):
-        super(SubWindow, self).__init__(*args, **kwargs)
-        self.setWindowTitle("MuseLab")
+        super(instrument_Window, self).__init__(*args, **kwargs)
+        self.setWindowTitle("Music Genre Type")
         self.setFixedWidth(1159)
         self.setFixedHeight(700)
         self.center()
+        # self.label = QLabel(self)
+        # self.label.setGeometry(0, 0, 520, 250)
+        # self.label.setStyleSheet("background-image: url(./image/hea.jpg); background-color: rgba(0,0,0,0%)")
+        # calling method
         self.UiComponents()
-        self.setStyleSheet("background-image: url(./image/melody_generate.jpg);")
+        self.string = ""
+        # showing all the widgets
+        self.show()
         app_icon = QIcon("./image/muselab_icon.jpg")
         self.setWindowIcon(app_icon)
 
-        self.show()
-        self.string = ""  # passed string from MainWindow
-
     def center(self):
-        screen = QDesktopWidget().screenGeometry()
-        size = self.geometry()
-        self.move((screen.width() - size.width()) / 2,
-                  (screen.height() - size.height()) / 2)
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
+    # method for widgets
     def UiComponents(self):
+        # creating a combo box widget
+        self.combo_box = QComboBox(self)
+        self.combo_box.setGeometry(460, 300, 250, 50)
+        self.combo_box.setMouseTracking(True)
+        font = QtGui.QFont()
+        font.setFamily("Pyunji R")
+        font.setPixelSize(19)
+        font.setBold(True)
+        self.combo_box.setFont(font)
+        # adding items to combo box
+        self.combo_box.addItem("Choose Instrument Type")
+        self.combo_box.addItem("      Violin Quartet1")
+        # 40, 40, 41, 42
+        self.combo_box.addItem("      Violin Quartet2")
+        # 40, 40, 41, 43
+        self.combo_box.addItem("      Wind Quartet")
+        # 73, 68, 71, 70
+        self.combo_box.addItem("      Brass Quartet")
+        # 56, 56, 60, 57
+        self.combo_box.addItem("    Saxophone Quartet")
+        # 64, 65, 66, 67
+        self.combo_box.addItem("        Pad2 + Vio.")
+        # 89, 89, 41, 42
+        self.combo_box.setCurrentIndex(0)
+        self.combo_box.setStyleSheet("QComboBox{background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 "
+                                     "white, stop:1 grey); "
+                                     "color:black;"
+                                     "selection-background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 "
+                                     "white, stop:1 grey);} "
+                                     "QComboBox:editable{background:rgb(220,200,230);}"
+                                     "QComboBox QAbstractItemView{border: 0px; outline:0px;"
+                                     "background: white "
+                                     "font:22px;color:rgb(0,0,0)}"
+                                     )
+
         button1 = QPushButton("Re-Orchestrate", self)
         button1.setGeometry(460, 225, 250, 50)
         button1.setFixedWidth(250)
@@ -57,9 +101,83 @@ class SubWindow(QMainWindow):
         font.setBold(True)
         font.setWeight(75)
         button1.setFont(font)
-        button1.setStyleSheet("color: rgb(255, 255, 255);")
+        button1.setStyleSheet("color: rgb(255, 255, 255); background-color: rgb(229, 251, 255)")
+        button1.clicked.connect(self.send_Signal)
+
+        button2 = QPushButton("", self)
+        button2.setFixedWidth(200)
+        button2.setFixedHeight(200)
+        button2.setGeometry(10, 535, 250, 50)
+        button2.setStyleSheet(
+            "background-image: url(./image/Back8.png); background-repeat: no-repeat")
+        button2.clicked.connect(self.back)
+
+        # self.combo_box.activated[str].connect(self.send_Signal)
+
+    def send_Signal(self):
+        instruments = self.combo_box.currentIndex()
+        print(instruments)
+        if instruments != 0:
+            self.instrument_sig.emit(instruments)
+        else:
+            label = QLabel("You need to choose one instrument type!", self)
+            label.setFixedHeight(30)
+            label.setFixedWidth(450)
+            label.move(380, 450)
+            font = QtGui.QFont()
+            font.setFamily("Pyunji R")
+            font.setPixelSize(23)
+            font.setBold(True)
+            font.setWeight(75)
+            label.setFont(font)
+            label.setStyleSheet(" background-image: url(./image/transparent.jpg); color: rgb(0, 0, 0);")
+            label.show()
+
+    def back(self):
+        self.sub = SubWindow()
+        self.sub.string = self.string
+        print(self.sub.string)
+        self.close()
+
+
+class SubWindow(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super(SubWindow, self).__init__(*args, **kwargs)
+        self.setWindowTitle("MuseLab")
+        self.setFixedWidth(1159)
+        self.setFixedHeight(700)
+        self.center()
+        self.UiComponents1()
+        self.setStyleSheet("background-image: url(./image/melody_generate.jpg); background-color: rgba(0,0,0,0%);")
+        app_icon = QIcon("./image/muselab_icon.jpg")
+        self.setWindowIcon(app_icon)
+
+        self.show()
+        self.string = ""  # passed string from MainWindow
+        print(self.string)
+
+    def center(self):
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+
+    def UiComponents1(self):
+        button1 = QPushButton("Re-Orchestrate", self)
+        button1.setGeometry(460, 225, 250, 50)
+        button1.setFixedWidth(250)
+        button1.setFixedHeight(50)
+        font = QtGui.QFont()
+        font.setFamily("Orange LET")
+        font.setPixelSize(24)
+        font.setBold(True)
+        font.setWeight(75)
+        button1.setFont(font)
+        button1.setStyleSheet("color: rgb(255, 255, 255); background-color: rgb(229, 251, 255)")
         button1.clicked.connect(self.ChordState)
-        button2 = QPushButton("Own Creation", self)
+
+        button2 = QPushButton("O w n Creation", self)
+        # button2.setToolTip("Choose Instruments for different parts") color problem to be fixed
         button2.setGeometry(460, 300, 250, 50)
         button2.setFixedWidth(250)
         button2.setFixedHeight(50)
@@ -69,10 +187,10 @@ class SubWindow(QMainWindow):
         font.setBold(True)
         font.setWeight(75)
         button2.setFont(font)
-        button2.setStyleSheet("color: rgb(255, 255, 255);")
-        button2.clicked.connect(self.LabState)
+        button2.setStyleSheet("color: rgb(255, 255, 255); background-color: rgb(229, 251, 255)")
+        button2.clicked.connect(self.Testing)
 
-        button3 = QPushButton("Go Back", self)
+        button3 = QPushButton("M u s ic Sheet", self)
         button3.setGeometry(460, 375, 250, 50)
         # button3.setIcon(QIcon("./image/return-icon2.jpg"))
         button3.setFixedWidth(250)
@@ -83,13 +201,34 @@ class SubWindow(QMainWindow):
         font.setBold(True)
         font.setWeight(75)
         button3.setFont(font)
+        button3.setStyleSheet("color: rgb(0,0,0); background-color: rgb(229, 251, 255)")
+        # button3.setStyleSheet(
+        #     "background-image: url(./image/transparent.jpg); color: rgb(0, 0, 0);")
+        button3.clicked.connect(self.New_Sheet)
 
-        button3.clicked.connect(self.Return)
+        button4 = QPushButton("", self)
+        # button4.setIcon(QIcon("./image/Back1.jpg"))
+        button4.setFixedWidth(200)
+        button4.setFixedHeight(200)
+        button4.setGeometry(10, 535, 250, 50)
+        button4.setStyleSheet(
+            "background-image: url(./image/Back8.png); background-repeat: no-repeat")
+        button4.clicked.connect(self.Return)
 
-    def ChordState(self):
-        print("Viewing Chords")
+    def Testing(self):
+
+        sub = instrument_Window(self)
+        sub.string = self.string
+        self.hide()
+        sub.instrument_sig.connect(self.ChordState)
+
+        # self.sub.show()
+
+    def ChordState(self, connect):
+        print("instrument_type: ", connect)
+        print("Generating......")
         fp = self.string
-        MuseScore = melody_generate(fp)
+        MuseScore = melody_generate(fp, connect)
         self.sub = Retry_tip()
         self.sub.show()
         if MuseScore == 0:
@@ -104,6 +243,38 @@ class SubWindow(QMainWindow):
         print(self.string)
         msg.setInformativeText("To Be Continue......")
         msg.exec_()
+
+    @staticmethod
+    def New_Sheet():
+        if system_name == "Windows":
+            try:
+                file = win32api.ShellExecute(0, 'open', 'MuseScore3.exe', './music/空白乐谱.mscz', '', 1)
+            except BaseException:
+                print("打开乐谱失败")
+            else:
+                print("f：", file)
+                if file == 42:
+                    print("打开乐谱成功")
+                else:
+                    print("打开乐谱失敗")
+            finally:
+                print("try 結束")
+
+        elif system_name == "Darwin":
+            try:
+                file = os.system("open -a MuseScore\ 3 ./music/空白乐谱.mscz")
+            except BaseException:
+                print("打开乐谱失败")
+            else:
+                print(file)
+                if file == 0:
+                    print("打开乐谱成功")
+                else:
+                    print("打开乐谱失敗")
+            finally:
+                print("try 結束")
+        else:
+            print("Please use this Application in Windows or Darwin/Mac system to have a better use.")
 
     def Return(self):
         mainWindows.show()
@@ -123,11 +294,11 @@ class MuseScore_tip(QMainWindow):
         self.UiComponents()
         self.show()
 
-    def up_center(self):
-        screen = QDesktopWidget().screenGeometry()
-        size = self.geometry()
-        self.move((screen.width() - size.width()) / 2,
-                  (screen.height() - size.height()) / 2)
+    def center(self):
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
     def UiComponents(self):
         label1 = QLabel("Can't show the new music Score", self)
@@ -173,7 +344,8 @@ class MuseScore_tip(QMainWindow):
         button2.setStyleSheet("color: rgb(255, 255, 255);")
         button2.clicked.connect(self.CloseState)
 
-    def MuseScore_website(self):
+    @staticmethod
+    def MuseScore_website():
         webbrowser.open('https://musescore.org/zh-hans')
 
     def CloseState(self):
@@ -184,7 +356,7 @@ class Retry_tip(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(Retry_tip, self).__init__(*args, **kwargs)
         self.setWindowTitle("Re-orchestration Completed")
-        self.setFixedWidth(530)
+        self.setFixedWidth(520)
         self.setFixedHeight(250)
         self.center()
         self.setStyleSheet("background-image: url(./image/Dialog_Background_1.jpg);")
@@ -194,10 +366,10 @@ class Retry_tip(QMainWindow):
         self.show()
 
     def center(self):
-        screen = QDesktopWidget().screenGeometry()
-        size = self.geometry()
-        self.move((screen.width() - size.width()) / 2,
-                  (screen.height() - size.height()) / 2)
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
     def UiComponents(self):
         label1 = QLabel("Re-orchestration completed!", self)
@@ -219,53 +391,19 @@ class Retry_tip(QMainWindow):
         label1.setStyleSheet("color: rgb(255, 255, 255);")
         label2.setStyleSheet("color: rgb(255, 255, 255);")
 
-        button1 = QPushButton("Try another", self)
-        button1.setGeometry(90, 200, 170, 35)
-        button1.setFixedWidth(150)
-        button1.setFixedHeight(35)
+        button = QPushButton("Ok", self)
+        button.setGeometry(207, 200, 170, 35)
+        button.setFixedWidth(100)
+        button.setFixedHeight(35)
         font = QtGui.QFont()
         font.setPixelSize(18)
         font.setBold(True)
-        button1.setFont(font)
-        button1.setStyleSheet("color: rgb(255, 255, 255);")
-        button1.clicked.connect(self.open_dialog_box)
-
-        button2 = QPushButton("Ok", self)
-        button2.setGeometry(295, 200, 170, 35)
-        button2.setFixedWidth(150)
-        button2.setFixedHeight(35)
-        font = QtGui.QFont()
-        font.setPixelSize(18)
-        font.setBold(True)
-        button2.setFont(font)
-        button2.setStyleSheet("color: rgb(255, 255, 255);")
-        button2.clicked.connect(self.CloseState)
-
-    def open_dialog_box(self):
-        self.hide()
-        Filename = QFileDialog.getOpenFileName()
-        path = Filename[0]
-        test_path = path.lower()
-        while test_path.endswith(".mid") is False and path != "":  # invalid file input
-            errormsg = QMessageBox()
-            errormsg.setStyleSheet("QLabel{min-width: 300px;}")
-            errormsg.setWindowTitle("Invalid File!")
-            errormsg.setText("Error")
-            errormsg.setInformativeText('Requires MIDI file as input!')
-            errormsg.exec_()
-            Filename = QFileDialog.getOpenFileName()
-            path = Filename[0]
-            test_path = path.lower()
-        if test_path.endswith(".mid"):  # correct input
-            fp = path
-            print(fp)
-            self.sub = SubWindow()
-            self.sub.string = path  # passes the string to new window
-            self.close()
+        button.setFont(font)
+        button.setStyleSheet("color: rgb(255, 255, 255);")
+        button.clicked.connect(self.CloseState)
 
     def CloseState(self):
-        self.close()
-
+        self.hide()
 
 class HelpScreen(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -282,10 +420,10 @@ class HelpScreen(QMainWindow):
         self.show()
 
     def center(self):
-        screen = QDesktopWidget().screenGeometry()
-        size = self.geometry()
-        self.move((screen.width() - size.width()) / 2,
-                  (screen.height() - size.height()) / 2)
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
     def UiComponents(self):
         self.label = QLabel("1. Provide a MIDI File to MuseLab", self)
@@ -393,13 +531,15 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setObjectName("MuseLab")
         MainWindow.resize(1125, 748)
         MainWindow.setMaximumSize(QtCore.QSize(1125, 748))
-        MainWindow.setStyleSheet("background-image: url(./image/music.jpg);")
+        # MainWindow.setMinimumSize(QtCore.QSize(1125, 748))
+        # MainWindow.setStyleSheet("background-image: url(./image/music.jpg);background-repeat: no-repeat;")
         # originally it is :/music.jpg, but it is wrong with“ ：”， should be "."
         app_icon = QIcon("./image/muselab_icon.jpg")
         MainWindow.setWindowIcon(app_icon)
         self.center()
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.centralwidget.setStyleSheet("background-image: url(./image/music.jpg);")
         self.selectFile = QtWidgets.QPushButton(self.centralwidget)
         self.selectFile.setGeometry(QtCore.QRect(470, 270, 201, 51))
         font = QtGui.QFont()
@@ -412,6 +552,9 @@ class Ui_MainWindow(QMainWindow):
         font.setKerning(True)
         font.setStyleStrategy(QtGui.QFont.PreferDefault)
         self.selectFile.setFont(font)
+        # self.selectFile.setStyleSheet("QToolTip{border:1px solid rgb(118, 118, 118); "
+        #                               "background-color: #ffffff; color:#484848; font-size:12px;}")
+        # 设置边框, 边框色, 背景色, 字体色, 字号
         self.selectFile.setStyleSheet("color:rgb(255, 170, 0); background-color: rgb(229, 251, 255)")
         self.selectFile.setObjectName("selectFile")
         self.selectFile.setToolTip("Click and Open the file dialog")
@@ -423,14 +566,20 @@ class Ui_MainWindow(QMainWindow):
         font.setPixelSize(28)
         self.welcomeSentence.setFont(font)
         self.welcomeSentence.setAutoFillBackground(False)
-        self.welcomeSentence.setStyleSheet("color: #ef9072; border: rgb(255, 255, 255)")
+        # self.welcomeSentence.setStyleSheet("color: #ef9072; border: rgb(255, 255, 255)")
+        self.welcomeSentence.setStyleSheet(
+            "background-image: url(./image/transparent.jpg); color: #ef9072; border: rgb(255, 255, 255)")
         self.welcomeSentence.setAlignment(QtCore.Qt.AlignCenter)
         self.welcomeSentence.setObjectName("welcomeSentence")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1125, 26))
         self.menubar.setAutoFillBackground(False)
-        self.menubar.setStyleSheet("color:white")
+        self.menubar.setStyleSheet("background-color:silver")
+        self.menubar.setStyleSheet(
+            "QMenuBar{background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 white, stop:1 grey);"
+            "spacing:5px;border:1px solid};"
+        )
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -500,7 +649,6 @@ class Ui_MainWindow(QMainWindow):
         self.menubar.addAction(self.menuSetting.menuAction())
         self.menubar.addAction(self.menuProperties.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
-
         self.retranslateUi(MainWindow)
         self.selectFile.clicked.connect(self.buttonClicked)
         # self.actionClose.triggered.connect(MainWindow.close)
@@ -514,11 +662,12 @@ class Ui_MainWindow(QMainWindow):
         # self.actionOpenFIle.triggered.connect(MainWindow.buttonClicked)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         # PLAY BACKGROUND MUSIC
+
     def center(self):
-        screen = QDesktopWidget().screenGeometry()
-        size = self.geometry()
-        self.move((screen.width() - size.width()) / 2,
-                  (screen.height() - size.height()) / 2)
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
     def closeState(self):
         print("close for sure?")
